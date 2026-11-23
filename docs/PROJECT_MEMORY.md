@@ -72,6 +72,8 @@ Stop dev servers before `npm ci` on Windows: native dependency files can be lock
 
 ## Next authorized work and future M4
 
+Current update: user authorized M4 on 24 November. Baseline `66cc5d0` saved separately after 53 fresh passing tests and lint/type/build. Cart schema/API implemented; backend checkpoint verification and documentation sync underway. Catalog/product/cart UI pending. Work only through M4; checkout M5 remains unauthorized. Replace the earlier documentation-only boundary below with this current authorization when resuming.
+
 Current task: synchronize all existing documentation to the vault, verify it, and record the workflow. Await the user's next instruction before M4.
 
 When M4 is authorized: reread [roadmap](DEVELOPMENT_ROADMAP.md), [API](API_DESIGN.md), [database design](DATABASE_DESIGN.md) and actual source. Build responsive routed catalog/details against the real API and a customer-owned persistent cart. Add cart migrations (TEXT user FK), merged quantity/stock checks, cart lock/revision, canonical server totals and ownership/concurrency tests. Show real loading/error/empty states; do not mask failures with sample products. Checkout remains M5. Confirm or develop the catalog visual direction as part of M4, within the approved scope.

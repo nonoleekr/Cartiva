@@ -10,6 +10,7 @@ import { toNodeHandler } from 'better-auth/node';
 import type { AuthSettings } from './modules/auth/auth.config.js';
 import { createAuth } from './modules/auth/auth.js';
 import { identityRoutes } from './modules/auth/auth.routes.js';
+import { cartRoutes } from './modules/cart/cart.routes.js';
 
 type AppOptions = { webDirectory?: string; database?: Database; authSettings?: AuthSettings };
 
@@ -46,6 +47,7 @@ export function createApp({ webDirectory, database, authSettings }: AppOptions =
       next();
     }, toNodeHandler(auth));
     app.use('/api/v1', identityRoutes(auth, database, authSettings));
+    app.use('/api/v1/cart', cartRoutes(auth, database, authSettings));
   }
 
   app.get('/api/v1/health/live', (_request, response) => {
@@ -88,6 +90,13 @@ export function createApp({ webDirectory, database, authSettings }: AppOptions =
 
   const handleError: ErrorRequestHandler = (error: unknown, _request, response, next) => {
     if (response.headersSent) return next(error);
+    if (typeof error === 'object' && error !== null && 'type' in error
+      && (error.type === 'entity.parse.failed' || error.type === 'entity.too.large')) {
+      response.status(error.type === 'entity.too.large' ? 413 : 400).json({ error: {
+        code: 'INVALID_BODY', message: 'Provide a valid JSON body of at most 16KB.', requestId: response.locals.requestId
+      } });
+      return;
+    }
     if (error instanceof ApiError) {
       response.status(error.status).json({ error: { code: error.code, message: error.message,
         ...(error.fieldErrors ? { fieldErrors: error.fieldErrors } : {}), requestId: response.locals.requestId } });

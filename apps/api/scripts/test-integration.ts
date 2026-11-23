@@ -10,7 +10,7 @@ const env = { ...process.env, NODE_ENV: 'test', DATABASE_URL: databaseUrl };
 // Run with Node directly for Windows/Linux parity, avoiding shell quoting.
 for (const [relativePath, args] of [
   ['../../../node_modules/prisma/build/index.js', ['migrate', 'deploy', '--config', 'prisma7.config.ts']],
-  ['../../../node_modules/vitest/vitest.mjs', ['run', '--no-file-parallelism', 'tests/integration/catalog.test.ts', 'tests/integration/auth.test.ts']]
+  ['../../../node_modules/vitest/vitest.mjs', ['run', '--no-file-parallelism', 'tests/integration/catalog.test.ts', 'tests/integration/auth.test.ts', 'tests/integration/cart.test.ts']]
 ] as const) {
   const result = spawnSync(process.execPath, [fileURLToPath(new URL(relativePath, import.meta.url)), ...args], { env, stdio: 'inherit' });
   if (result.error) throw result.error;

@@ -49,3 +49,10 @@ This log summarizes work already evidenced in the project records. Dates below d
 - Deliberately reviewed the untracked M1–M3 source/config/docs; ignored secrets, generated client, dependencies, builds and backups are excluded.
 - Fresh baseline verification: lint/typechecks/builds, 23 HTTP/config/safety tests and 30 PostgreSQL integration tests passed (53 total).
 - Save the reviewed M1–M3 baseline in its own local commit before M4 changes; record the actual hash in the next update. No push.
+
+## 24 November 2026 — M4 backend checkpoint
+
+- Baseline committed locally as `66cc5d0`; preserved applied migration bytes despite its preexisting trailing blank line.
+- Added cart/line schema migration, owned read/add/replace/remove endpoints, strict validation and session-bound CSRF, transactional cart/product locking, stock/line limits and server integer totals. No reservation or checkout.
+- Initial backend checks passed: 23 HTTP/config/safety + 44 PostgreSQL integration tests (67); source/type/build/lint passed. Read-only GET snapshot refinement passed strict typechecks and all 44 integration tests before commit.
+- Generated catalog visual concept and three illustrative category photos for the synthetic catalog. UI implementation/browser verification is still pending.

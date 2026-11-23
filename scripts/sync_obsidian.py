@@ -123,8 +123,8 @@ def main() -> None:
 
 ## Resume here
 
-M1–M3 are complete according to their recorded verification. **M4 has not started.**
-The current request is to document everything before continuing, not to start M4.
+M1–M3 are complete. **M4 is authorized and in progress**: cart backend checkpoint,
+then responsive catalog/product/cart UI. Stop before M5 checkout.
 
 - [Project memory / handoff](reference/docs/PROJECT_MEMORY.md)
 - [Development log](reference/docs/DEVELOPMENT_LOG.md)
@@ -150,6 +150,7 @@ Recorded results are historical; inspect current source and run relevant checks 
 - [M1: browser/server foundation](reference/docs/MILESTONE_1.md)
 - [M2: PostgreSQL and catalog API](reference/docs/MILESTONE_2.md)
 - [M3: authentication, sessions, authorization](reference/docs/MILESTONE_3.md)
+- [M4: catalog, product pages and persistent cart (in progress)](reference/docs/MILESTONE_4.md)
 
 Latest recorded run (23 November 2026): 23 HTTP/config/safety tests and 30 PostgreSQL
 integration tests passed (53 total), with lint/typechecks/builds and Chromium UI checks.
@@ -176,8 +177,7 @@ These show synthetic local verification, not a hosted release or the future stor
 
 ## Pending decisions / next actions
 
-- Review this documentation before authorizing M4.
-- When authorized, implement responsive catalog/details and a persistent owned cart only.
+- Complete and review M4: responsive catalog/details and persistent owned cart only.
 - Keep checkout for M5 and admin management for M6.
 - Confirm actual hosting budget, public signup policy, TLS/proxy behavior and recovery
   readiness before public deployment; never confuse demo safeguards with production readiness.
@@ -186,7 +186,7 @@ These show synthetic local verification, not a hosted release or the future stor
     for name in IMAGES:
         if f"assets/{name}" not in planned and not (project / "assets" / name).exists():
             hub = hub.replace(next((line + "\n" for line in hub.splitlines() if f"assets/{name}" in line), ""), "")
-    planned["Cartiva.md"] = (note("Cartiva — Project Hub", "project", "Project documentation and handoff before milestone four.", hub, day), None)
+    planned["Cartiva.md"] = (note("Cartiva — Project Hub", "project", "Project documentation, milestone status and development handoff.", hub, day), None)
 
     # Refuse to overwrite any independent edits, including managed notes no longer sourced.
     for relative, entry in previous["files"].items():

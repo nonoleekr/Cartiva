@@ -1,5 +1,7 @@
 # REST API — proposed contract
 
+M4 in progress: the four customer-owned cart endpoints below are now implemented on top of M3 auth/CSRF. Shopping UI verification is pending. GET absent-cart id is null; DELETE item sends JSON `{}`. Cart lines expose current prices and availability AVAILABLE/INSUFFICIENT_STOCK/UNAVAILABLE; unavailable lines remain removable. No checkout/order/admin endpoints are implemented.
+
 Implemented through M3: public catalog and health endpoints, the four auth routes below, `/api/v1/me`, `/api/v1/csrf`, and JSON API 404s. Cart/order/admin endpoints remain planned. Domain routes use `/api/v1`; auth uses Better Auth's `/api/auth` namespace. Cookies are same-origin sessions. Auth POSTs require exact Origin and bounded JSON; future domain mutations additionally require the session-bound CSRF token. Never accept a customerId or role as authorization evidence from the client.
 
 ## Endpoints
