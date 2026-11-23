@@ -1,8 +1,8 @@
 # Decisions and approval record
 
-Updated 23 November 2026. User approved the architecture/stack/roadmap, “continue” authorized M2, and “next step” authorized **M3 only**. M3 authentication is complete and locally verified, awaiting review; M4 and later milestones remain unimplemented.
+Updated 24 November 2026. User authorized M4 after the documentation transfer and required Obsidian updates and local commits after significant parts. M4 catalog/cart is complete and locally verified; ready for review. M5 and later remain unimplemented.
 
-Before M4, the user requested a complete documentation transfer into the added Obsidian vault and ongoing updates during development. The project hub is `D:/Ronald/Documents/obsidian_vault/Projects/Cartiva/Cartiva.md`; repository instructions and [sync workflow](OBSIDIAN_WORKFLOW.md) now require maintaining this reading/handoff layer. This request authorizes the documentation sync, not M4 implementation or publishing.
+Before M4, the user requested a complete documentation transfer into the added Obsidian vault and ongoing updates during development. The project hub is `D:/Ronald/Documents/obsidian_vault/Projects/Cartiva/Cartiva.md`; repository instructions and [sync workflow](OBSIDIAN_WORKFLOW.md) now require maintaining this reading/handoff layer. The later instruction to move onto the next step authorized M4 implementation and its local commit checkpoints; publishing remains unauthorized.
 
 ## Confirmed constraints from the request
 
@@ -61,7 +61,7 @@ Approval record: **approved**, user reply “yes” on 19 November; “continue�
 
 ## Current handoff
 
-Completed: reference inspection, planning, M1 foundation, M2 catalog database/API, M3 registration/sessions/authorization infrastructure and account UI. [M3 record](MILESTONE_3.md) has verification details. Legacy runtime, future commerce, actual hosted TLS/proxy/deployment remain unverified. No legacy files changed. Pending: M3 review before M4.
+Completed: reference inspection, planning, M1 foundation, M2 catalog database/API, M3 registration/sessions/authorization infrastructure and account UI. [M3 record](MILESTONE_3.md) has verification details. Legacy runtime, future commerce, actual hosted TLS/proxy/deployment remain unverified. No legacy files changed. Subsequently M4 was authorized and implemented; see its record for 67 passing tests and browser checks. Pending: M4 review before M5.
 
 ## M1 implementation choices
 
@@ -90,3 +90,11 @@ Completed: reference inspection, planning, M1 foundation, M2 catalog database/AP
 - Only four library auth routes are public. Local admin command updates an existing explicit account and revokes sessions; no seeded credentials/admin feature UI.
 - Application CSRF is HMAC-bound to session ID and checks exact Origin/JSON. Middleware is verified with a test fixture; later mutation routes must attach it after session authorization.
 - In-memory rate limits use an overwritten socket-peer header. Real proxy-IP policy and multi-instance enforcement are deferred to deployment, with current conservative grouping documented.
+
+## M4 implementation choices
+
+- Database cart ownership comes only from session identity; strict request bodies reject supplied owners/prices. Unique cart/user and cart/product constraints plus cart-first row locks serialize mutations. Product stock is checked under lock, with no reservation. GET uses a repeatable-read snapshot and does not create a cart.
+- React owns drafts/feedback; URL owns discovery state; server owns canonical quantities/prices/totals. Runtime JSON is validated; stale reads abort; user-keyed cart components prevent carrying UI state across account changes. No browser cart/token persistence.
+- Generated concepts precede implementation; three original category photos are explicitly illustrative and reused for synthetic products. Actual API data supersedes invented concept prices/counts. See DESIGN_NOTES for fidelity and evidence.
+- M4 uses existing tooling and browser validation rather than adding a second frontend test runner for markup. Meaningful integer totals, ownership and concurrency checks run against real PostgreSQL.
+- Each significant part has a local commit after checks, explanatory notes and verified Obsidian sync. The separately reviewed baseline is `66cc5d0`; backend `a474544`; catalog `6d7a409`; final cart/handoff commit includes this record; use Git log for its hash. No push/deployment.

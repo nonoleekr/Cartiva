@@ -2,7 +2,7 @@
 
 A full-stack, single-store e-commerce learning project and future internship portfolio application.
 
-**Status: Milestone 3 complete and locally verified; awaiting review before M4.** Registration, cookie sessions, account pages and authorization infrastructure now exist. Catalog shopping UI, cart, checkout, orders and deployment remain unimplemented.
+**Status: M4 complete and locally verified; ready for review before M5.** Browse, search/filter/sort/page, product details, signup/sign-in and account-owned cart are connected to PostgreSQL. Checkout, orders, admin screens and deployment remain future milestones.
 
 The reference repository at `D:/Coding_Projects/simple-ecommerce-cart-system` contains a Java Swing assignment and a later Spring Boot/React modernization. Both are reference material only. Cartiva will be built independently here; no legacy code, runtime data, or assets have been copied.
 
@@ -31,6 +31,14 @@ The reference repository at `D:/Coding_Projects/simple-ecommerce-cart-system` co
 - `/api/v1/me`, session-bound `/api/v1/csrf` and reusable authorization/CSRF middleware.
 - Exact origin checks, bounded JSON auth bodies, rate limits and secure production cookie configuration.
 - See [M3 learning guide](docs/MILESTONE_3.md). Email verification, recovery and admin screens are not available yet.
+
+## Implemented shopping and cart (M4)
+
+- Responsive catalog/detail pages with URL-backed server search, category, sort and pagination.
+- Explicit loading, failure/retry, empty and stock states; illustrative generated sample photos.
+- Authenticated persistent cart: merge add, absolute quantity update, remove and current server totals in MYR.
+- Ownership, CSRF, strict input bounds, serialized concurrent writes and stock validation; no inventory reservation.
+- [M4 guide](docs/MILESTONE_4.md) explains the request flow, trade-offs and recorded checks.
 
 ## Planned MVP
 
@@ -74,7 +82,7 @@ npm run auth:setup
 npm run dev
 ```
 
-Open [Cartiva locally](http://127.0.0.1:5173) or [create an account](http://127.0.0.1:5173/sign-up). Catalog pages arrive in M4. Express listens on `127.0.0.1:3001`; Vite forwards `/api` to it. Docker Desktop must be running and unpaused. The development DB binds only `127.0.0.1:5434` with a project-specific persistent volume. Default database credentials are local-only. Prisma client generation runs during `npm ci`. Stop dev servers before reinstalling dependencies on Windows to avoid native file locks.
+Open [Cartiva locally](http://127.0.0.1:5173) or [create an account](http://127.0.0.1:5173/sign-up). The home page is the catalog; product deep links and `/cart` are available. Express listens on `127.0.0.1:3001`; Vite forwards `/api` to it. Docker Desktop must be running and unpaused. The development DB binds only `127.0.0.1:5434` with a project-specific persistent volume. Default database credentials are local-only. Prisma client generation runs during `npm ci`. Stop dev servers before reinstalling dependencies on Windows to avoid native file locks.
 
 `auth:setup` generates a random secret in gitignored `apps/api/.env` without printing it; reruns preserve an existing secret. Settings are documented in [apps/api/.env.example](apps/api/.env.example). APP_ORIGIN defaults to exactly `http://127.0.0.1:5173` in development. Use that host consistently; a different port/host requires an explicit matching origin. Production requires DATABASE_URL, a strong BETTER_AUTH_SECRET and HTTPS APP_ORIGIN. If changing API PORT, update the Vite proxy target too.
 
@@ -106,8 +114,8 @@ npm start
 
 Replace the example origin/database with the deployment values and configure a production secret securely; never deploy local credentials. The server binds `0.0.0.0` by default in production. Secure cookies require the configured HTTPS public origin, not plain HTTP localhost. For local auth use `npm run dev`. Remove temporary shell overrides before returning to development. The start command loads `apps/api/.env`; shell variables take precedence. Hosted TLS/proxy behavior is still unverified.
 
-Health: `GET /api/v1/health/live` proves the process responds. `GET /api/v1/health/ready` checks DB connectivity. Public catalog: `GET /api/v1/products`, `GET /api/v1/products/sample-item-01`, `GET /api/v1/categories`. M3 enables the four documented auth routes plus `/api/v1/me` and `/api/v1/csrf`; other planned routes remain absent. Missing `/api` routes return JSON 404 even when the browser requests HTML.
+Health: `GET /api/v1/health/live` proves the process responds. `GET /api/v1/health/ready` checks DB connectivity. Public catalog: `GET /api/v1/products`, `GET /api/v1/products/sample-item-01`, `GET /api/v1/categories`. M3 enables the four documented auth routes plus `/api/v1/me` and `/api/v1/csrf`; M4 adds owned cart read/add/replace/remove endpoints. Checkout/order/admin routes remain absent. Missing `/api` routes return JSON 404 even when the browser requests HTML.
 
 For local admin learning, register an account then run `npm run auth:grant-admin -- your-email@example.invalid --confirm`. This only accepts local Cartiva development/test databases, grants the role to an existing user and revokes that user's sessions. Sign in again. No admin credentials are committed or pre-seeded.
 
-Stop after M3 review. The next milestone is responsive catalog and persistent cart (M4); it has not started.
+Review [M4 learning and verification](docs/MILESTONE_4.md) before M5 simulated checkout. No payments or orders can be placed yet.

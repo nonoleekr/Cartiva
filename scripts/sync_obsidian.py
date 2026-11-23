@@ -15,7 +15,9 @@ REPO = Path(__file__).resolve().parents[1]
 DEFAULT_VAULT = Path(r"D:\Ronald\Documents\obsidian_vault")
 EVIDENCE = Path(r"C:\Users\Ronald\.codex\visualizations\2026\11\19\01a1f299-8637-7f41-bd0a-2bdfd9d9d133")
 IMAGES = ["cartiva-desktop.png", "cartiva-mobile.png", "m3-account-desktop.png",
-          "m3-account-mobile.png", "m3-signin-mobile.png"]
+          "m3-account-mobile.png", "m3-signin-mobile.png", "m4-catalog-desktop.png",
+          "m4-catalog-mobile.png", "m4-product-desktop.png", "m4-product-mobile.png",
+          "m4-cart-desktop.png", "m4-cart-mobile.png"]
 
 
 def digest(data: bytes) -> str:
@@ -112,9 +114,10 @@ def main() -> None:
     # Explicit allowlist: never include the adjacent real .env file.
     example = REPO / "apps" / "api" / ".env.example"
     planned["reference/apps/api/.env.example"] = (example.read_bytes(), example)
-    concept = REPO / "docs" / "design" / "m4-catalog-concept.png"
-    if concept.is_file():
-        planned["reference/docs/design/m4-catalog-concept.png"] = (concept.read_bytes(), concept)
+    for name in ["m4-catalog-concept.png", "m4-cart-concept.png"]:
+        concept = REPO / "docs" / "design" / name
+        if concept.is_file():
+            planned[f"reference/docs/design/{name}"] = (concept.read_bytes(), concept)
     for name in IMAGES:
         source = EVIDENCE / name
         if source.is_file():
@@ -126,8 +129,8 @@ def main() -> None:
 
 ## Resume here
 
-M1–M3 are complete. **M4 is authorized and in progress**: cart backend checkpoint,
-then responsive catalog/product/cart UI. Stop before M5 checkout.
+M1–M4 are implemented and locally verified. Review M4 before starting M5 checkout.
+Catalog/product/cart UI uses the real API and an account-owned PostgreSQL cart.
 
 - [Project memory / handoff](reference/docs/PROJECT_MEMORY.md)
 - [Development log](reference/docs/DEVELOPMENT_LOG.md)
@@ -154,10 +157,10 @@ Recorded results are historical; inspect current source and run relevant checks 
 - [M1: browser/server foundation](reference/docs/MILESTONE_1.md)
 - [M2: PostgreSQL and catalog API](reference/docs/MILESTONE_2.md)
 - [M3: authentication, sessions, authorization](reference/docs/MILESTONE_3.md)
-- [M4: catalog, product pages and persistent cart (in progress)](reference/docs/MILESTONE_4.md)
+- [M4: catalog, product pages and persistent cart](reference/docs/MILESTONE_4.md)
 
-Latest recorded run (23 November 2026): 23 HTTP/config/safety tests and 30 PostgreSQL
-integration tests passed (53 total), with lint/typechecks/builds and Chromium UI checks.
+Latest recorded run (24 November 2026): 23 HTTP/config/safety tests and 44 PostgreSQL
+integration tests passed (67 total), with lint/typechecks/builds and Chromium UI checks.
 These tests were not rerun merely to copy documentation. CI/hosted TLS/other browsers
 remain unverified. No default admin account, real payment processing or deployment.
 
@@ -171,17 +174,23 @@ The manifest records provenance and hashes. Local credentials/session data are n
 
 ## Recorded screenshots
 
-These show synthetic local verification, not a hosted release or the future storefront.
+These show synthetic local verification, not a hosted release.
 
 - [M1 desktop](assets/cartiva-desktop.png)
 - [M1 mobile](assets/cartiva-mobile.png)
 - [M3 account desktop](assets/m3-account-desktop.png)
 - [M3 account mobile](assets/m3-account-mobile.png)
 - [M3 sign-in mobile](assets/m3-signin-mobile.png)
+- [M4 catalog desktop](assets/m4-catalog-desktop.png)
+- [M4 catalog mobile](assets/m4-catalog-mobile.png)
+- [M4 product desktop](assets/m4-product-desktop.png)
+- [M4 product mobile](assets/m4-product-mobile.png)
+- [M4 cart desktop](assets/m4-cart-desktop.png)
+- [M4 cart mobile](assets/m4-cart-mobile.png)
 
 ## Pending decisions / next actions
 
-- Complete and review M4: responsive catalog/details and persistent owned cart only.
+- Review completed M4 before authorizing the next milestone.
 - Keep checkout for M5 and admin management for M6.
 - Confirm actual hosting budget, public signup policy, TLS/proxy behavior and recovery
   readiness before public deployment; never confuse demo safeguards with production readiness.
@@ -231,7 +240,7 @@ These show synthetic local verification, not a hosted release or the future stor
         addition = "\n\n## Development projects\n\n- [Cartiva](Projects/Cartiva/Cartiva.md) — project documentation, decisions, milestone learning and resume context.\n"
         home_text = re.sub(r"^updated: .+$", f"updated: {day}", original_home.decode("utf-8"), count=1, flags=re.MULTILINE)
         home.write_text(home_text + addition, encoding="utf-8", newline="")
-    log_addition = f"\n\n## {day} — Cartiva documentation sync\n\nCopied {len(documents)} repository Markdown documents, a safe environment example, recorded screenshots and a project hub into Projects/Cartiva. Added provenance and hash manifest; preserved source bodies and existing vault content. Home/Maintenance Log backed up outside the vault at `{backup}`. Verified managed file hashes, source hashes, metadata, unique titles and local links. No application tests rerun by this sync, no M4 work, no settings/plugins changed. Obsidian rendered views/backlinks not visually checked.\n"
+    log_addition = f"\n\n## {day} — Cartiva documentation sync\n\nCopied {len(documents)} repository Markdown documents, a safe environment example, recorded screenshots and a project hub into Projects/Cartiva. Added provenance and hash manifest; preserved source bodies and existing vault content. Home/Maintenance Log backed up outside the vault at `{backup}`. Verified managed file hashes, source hashes, metadata, unique titles and local links. No application tests rerun by this sync; milestone implementation/checks are recorded in the copied guides. No settings/plugins changed. Obsidian rendered views/backlinks not visually checked.\n"
     log_addition += "\nHome/Maintenance Log backups are outside the vault. Verified source/target hashes, note metadata, unique managed titles and local links; Obsidian rendering/backlinks were not visually checked.\n"
     log_text = re.sub(r"^updated: .+$", f"updated: {day}", original_log.decode("utf-8"), count=1, flags=re.MULTILINE)
     log.write_text(log_text + log_addition, encoding="utf-8", newline="")

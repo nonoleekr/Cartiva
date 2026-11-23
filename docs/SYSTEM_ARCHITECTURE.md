@@ -1,6 +1,6 @@
 # System architecture — proposed
 
-Architecture approved on 19 November 2026. M1 implements shell/routing; M2 adds catalog database/API; M3 enables registration, absolute cookie sessions, current role/CSRF infrastructure and account UI. Catalog shopping UI, cart/checkout/orders and admin management sections below remain future work. See [M3 record](MILESTONE_3.md).
+Architecture approved on 19 November 2026. M1 implements shell/routing; M2 adds catalog database/API; M3 enables registration, absolute cookie sessions, current role/CSRF infrastructure and account UI. M4 adds catalog/detail/cart UI and owned cart storage/API. Checkout/orders and admin management sections below remain future work. See [M3 record](MILESTONE_3.md).
 
 ## Stack recommendation and alternatives
 

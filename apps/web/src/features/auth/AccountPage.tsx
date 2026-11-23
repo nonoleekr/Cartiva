@@ -22,7 +22,7 @@ export function AccountPage() {
     <h1 className="text-3xl font-semibold tracking-tight">Your account</h1>
     <p role="status" className="mt-5 text-lg">Signed in as {user.name}.</p>
     <dl className="mt-8 grid gap-4 border-y border-stone-200 py-6"><div><dt className="text-sm text-stone-500">Email</dt><dd className="mt-1 break-words">{user.email}</dd></div><div><dt className="text-sm text-stone-500">Role</dt><dd className="mt-1">{user.role === 'ADMIN' ? 'Administrator' : 'Customer'}</dd></div></dl>
-    <p className="mt-6 leading-7 text-stone-600">Email verification and password recovery are not available in this demo. Cart and order features will follow in later milestones.</p>
+    <p className="mt-6 leading-7 text-stone-600">Email verification and password recovery are not available in this demo. Your cart is saved to your account. Checkout and orders are not available yet.</p>
     {error && <p role="alert" className="mt-4 text-red-800">{error}</p>}
     <button disabled={busy} onClick={() => void logout()} className="mt-6 rounded-lg bg-emerald-900 px-5 py-3 font-medium text-white disabled:opacity-60">{busy ? 'Signing out…' : 'Sign out'}</button>
   </section>;

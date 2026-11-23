@@ -62,3 +62,12 @@ This log summarizes work already evidenced in the project records. Dates below d
 - Backend checkpoint saved as `a474544`; notes/API/schema records synced and verified first.
 - Added responsive catalog and product detail pages, URL search/category/sort/page state, validated API responses, loading/error/retry/empty components and three original generated sample photos. Seeded records use those explicit image paths.
 - Catalog browser checks confirm actual data, combined filter/sort and reload, text search, product deep link and empty state. Design comparison/spacing refinements recorded in DESIGN_NOTES. Cart controls and full mobile/error/cart flow verification remain the next M4 part.
+
+## 24 November 2026 — M4 connected cart verification
+
+- Catalog checkpoint committed as `6d7a409` after notes/sync. Connected authenticated add, absolute quantity update, remove, stock/conflict feedback and persistent cart display. Signup/sign-in preserve an allowlisted product/cart return path.
+- Final full checks passed: lint/typecheck/build, 23 HTTP/config/safety tests and 44 PostgreSQL integration tests (67 total). Chromium verified signup return path, add/update/reload/remove, zero feedback, stock 409, out-of-stock controls, anonymous cart and induced catalog 503 with successful retry. Screenshots and 375px overflow checks cover catalog/product/cart; concepts compared explicitly.
+- Updated owning API/database/architecture/requirements/decision notes and the M4 learning guide. Added generated cart concept and allowlisted final screenshots to organized Obsidian delivery; sync/commit recorded after final account switching/cleanup. Checkout remains M5; no push/deploy.
+
+- Final browser checks: B’s cart empty, A’s saved product01 restored after re-login; missing-product feedback, Next pagination and keyboard skip navigation verified. Removed exactly two synthetic browser users and confirmed zero remain. Final page console reported zero errors/warnings. Legacy repository remains clean.
+- Documentation delivery: 17 Markdown sources, safe environment example, two concepts, 11 historical/current screenshots and linked hub (32 managed files), with source/body/hash/link checks. The final cart/UI checkpoint commit includes these records; actual hash is reported in the handoff and Git log. No checkout work started.

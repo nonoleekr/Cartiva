@@ -1,6 +1,6 @@
 # Development roadmap — proposed
 
-Current state: architecture/stack/roadmap approved on 19 November 2026. User's “next step” on 23 November authorized M3 after M2. **M1–M3 complete and locally verified; awaiting M3 review; M4–M8 not started.** See [M3 record](MILESTONE_3.md). Implement only one milestone at a time. Each finishes with a demonstration, explanation, recorded checks/gaps, and user review before the next begins. Do not scaffold all future modules at once.
+Current state: architecture/stack/roadmap approved on 19 November 2026. User's “next step” on 23 November authorized M3 after M2. **M1–M4 complete and locally verified; M4 ready for review. M5–M8 not started.** See [M4 record](MILESTONE_4.md). Implement only one milestone at a time. Each finishes with a demonstration, explanation, recorded checks/gaps, and user review before the next begins. Do not scaffold all future modules at once.
 
 Dependencies: approval → M1 → M2 → M3 → M4 → M5 → M6 → M7. M8 optional work is deliberately not scheduled into MVP.
 
@@ -15,11 +15,11 @@ The user explicitly requires documentation, note-making and organized Obsidian u
 5. **Verify documentation completion:** run the sync's dry run, apply and verify commands from [Obsidian workflow](OBSIDIAN_WORKFLOW.md). Check contents, links, provenance and user-edit conflicts before handoff.
 6. **Commit each significant completed part:** after its relevant checks and documentation/Obsidian updates, review the diff, stage only the intended changes and create a descriptive local Git commit. Record/report its hash, purpose and verification. Repeat for each coherent part instead of deferring all commits to milestone end.
 
-Documentation and verified Obsidian synchronization are part of the definition of done for all remaining milestones. Do not mark them complete merely because application tests pass. This change does not start M4.
+Documentation and verified Obsidian synchronization are part of the definition of done for all remaining milestones. Do not mark them complete merely because application tests pass. M4 was subsequently authorized on 24 November.
 
 ## Git checkpoints within milestones
 
-Requested 24 November 2026. Each milestone action plan must place local commit actions after its significant verified parts. Use meaningful units such as schema/API service, frontend flow, or substantial bug fix; avoid both one commit per file and a single unreviewable milestone dump. Keep the relevant documentation with its implementation commit. Examples for M4: cart schema/service with DB checks; catalog/detail UI with browser verification; cart UI/integration with ownership/concurrency checks. These are planning examples, not completed work or permission to start M4.
+Requested 24 November 2026. Each milestone action plan must place local commit actions after its significant verified parts. Use meaningful units such as schema/API service, frontend flow, or substantial bug fix; avoid both one commit per file and a single unreviewable milestone dump. Keep the relevant documentation with its implementation commit. Examples for M4: cart schema/service with DB checks; catalog/detail UI with browser verification; cart UI/integration with ownership/concurrency checks. M4 checkpoints are recorded in its milestone guide.
 
 For each checkpoint: inspect status/diff, run checks appropriate to that part, finish explanatory notes and Obsidian sync, selectively stage the intended files, commit with a clear message, then report the actual hash. Preserve unrelated changes and exclude secrets/generated artifacts. Existing untracked M1–M3 work requires an intentional baseline review before any later checkpoint; do not silently include it in a new part. Local commits do not imply push, deployment or history rewriting. If a commit cannot be made, record the actual blocker rather than claim completion.
 

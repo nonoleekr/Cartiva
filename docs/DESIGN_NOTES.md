@@ -4,7 +4,7 @@ The frontend-builder, imagegen, React and frontend-testing skills are used for M
 
 ## Concept and implementation inventory
 
-[Generated catalog concept](design/m4-catalog-concept.png) is a visual reference, not a screenshot shipped as UI. The actual UI is semantic React/Tailwind: white background, deep green #064e3b/#022c22, stone-grey dividers, Segoe UI/Arial, text brand, open product tiles without shadows, labelled search/category/sort, four desktop/two mobile columns, product/detail links and pagination. Product detail uses a responsive image/content layout; cart will use accessible rows and a clear server subtotal.
+[Generated catalog concept](design/m4-catalog-concept.png) is a visual reference, not a screenshot shipped as UI. The actual UI is semantic React/Tailwind: white background, deep green #064e3b/#022c22, stone-grey dividers, Segoe UI/Arial, text brand, open product tiles without shadows, labelled search/category/sort, four desktop/two mobile columns, product/detail links and pagination. Product detail uses a responsive image/content layout; cart uses accessible rows and a clear server subtotal.
 
 Allowed catalog copy: Cartiva, Shop, Cart, Account/Sign in (session-dependent), “Find your everyday essentials.”, “Explore our sample collection for desk, home and travel.”, Search products, Category, Sort by, stock labels, Add to cart, Previous/Next and page state. Product names, prices, quantities and counts come only from API responses. Footer discloses the learning project and illustrative images. No ratings, promotions, fake metrics, wishlist, payment or checkout control.
 
@@ -15,7 +15,7 @@ Core tokens: headline 40px/48px desktop and 30px mobile; UI labels 14px, product
 - Real “newest” ordering shows the seeded product 25 first, not the concept's invented ordering/prices. Default page size eight means **24 real active products / three pages**, not the mockup's inconsistent two-page label.
 - Three standalone illustrative category photos are reused for the fictional seed records, rather than suggesting eight distinct real goods. Description/footer disclose synthetic/sample imagery.
 - An explicit Search button supports keyboard/form submission. Session-dependent Account/Sign in and availability/disabled actions reflect actual state.
-- Cart/Add controls are connected in the next M4 checkpoint; the intermediate catalog commit exposes browse/detail only. No inert purchase controls.
+- Cart/Add controls were connected in the cart-UI checkpoint; the intermediate catalog commit exposed browse/detail only. Cart adds Refresh cart, inline mutation feedback and explicit checkout-unavailable copy. Its screenshot uses actual product25/three units rather than invented concept lines/totals. Desktop uses the shared 1200px content width, smaller 144px thumbnails and a labelled quantity above the input; mobile stacks rows/summary.
 
 ## Built-in generation prompt set
 
@@ -33,4 +33,10 @@ Final project asset paths: `apps/web/public/assets/sample-desk.png`, `sample-hom
 
 ## Verification ledger
 
-Intermediate catalog browser checks: actual 24-product response, URL-backed text search, combined category/price sort, reload persistence, product deep link and visible empty result verified. Lint/type/build and 23 HTTP/config tests passed. Native concept and browser screenshot inspected; spacing/media refinements made to match the open layout. Final comparison (including connected buttons/cart, mobile/error/retry states) is pending the cart-UI checkpoint, with no completed-design claim yet.
+Intermediate catalog browser checks: actual 24-product response, URL-backed text search, combined category/price sort, reload persistence, product deep link and visible empty result verified. Lint/type/build and 23 HTTP/config tests passed. Native concept and browser screenshot inspected; spacing/media refinements made to match the open layout. Final catalog and cart screenshots were explicitly inspected alongside the saved concepts. White/green palette, open grid, media proportions, text hierarchy, dividers and two-column cart/summary are retained; the data/layout deviations above are intentional. At 375px, filters stack, catalog uses two columns and cart rows/summary stack without horizontal overflow. Product desktop/mobile screenshots were also captured.
+
+## Cart concept and final evidence
+
+[Generated cart concept](design/m4-cart-concept.png). Prompt: polished desktop Cartiva cart matching the catalog's true-white/deep-green typography, Shop/Cart/Account header, Your cart title and review copy; two-column main rows and bordered subtotal; standalone notebook/mug photos, product links, quantities, Update/Remove and Continue shopping; disclose no inventory reservation; no checkout/payment control or invented extra features. Semantic React implements all controls; the concept is a reference image only.
+
+Final screenshot filenames (archived by the allowlisted Obsidian sync): `m4-catalog-desktop.png`, `m4-catalog-mobile.png`, `m4-product-desktop.png`, `m4-product-mobile.png`, `m4-cart-desktop.png`, `m4-cart-mobile.png`. Desktop 1440×1000; mobile 375×812. Browser cases and limitations are in the M4 guide. Original category assets are generated imagery, not actual merchandise.

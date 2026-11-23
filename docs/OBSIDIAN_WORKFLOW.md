@@ -57,4 +57,4 @@ When adding a milestone note or changing milestone status, update the hub conten
 
 ## Current milestone boundary
 
-M1–M3 complete per their records; M4 has not started. The present instruction is to finish this documentation transfer before continuing.
+M1–M3 complete. M4 was authorized 24 November and its catalog/cart implementation is complete and locally verified. Keep explanatory notes, current records, design references and screenshots organized in the hub; stop before M5.

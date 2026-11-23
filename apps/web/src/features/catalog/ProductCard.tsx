@@ -1,6 +1,7 @@
 import { Link } from 'react-router';
 import type { Product } from './api';
 import { money } from '../../lib/money';
+import { AddToCart } from '../cart/AddToCart';
 
 export function ProductCard({ product }: { product: Product }) {
   return <article className="min-w-0">
@@ -9,5 +10,6 @@ export function ProductCard({ product }: { product: Product }) {
     <p className="text-sm leading-5 text-stone-600">{product.category.name}</p>
     <p className="font-semibold leading-6">{money(product.priceMinor)}</p>
     <p className={`text-sm leading-5 ${product.stockQuantity > 0 ? 'text-emerald-800' : 'text-stone-600'}`}>{product.stockQuantity > 0 ? 'In stock' : 'Out of stock'}</p>
+    <AddToCart product={product} />
   </article>;
 }
