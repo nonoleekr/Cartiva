@@ -56,3 +56,9 @@ This log summarizes work already evidenced in the project records. Dates below d
 - Added cart/line schema migration, owned read/add/replace/remove endpoints, strict validation and session-bound CSRF, transactional cart/product locking, stock/line limits and server integer totals. No reservation or checkout.
 - Initial backend checks passed: 23 HTTP/config/safety + 44 PostgreSQL integration tests (67); source/type/build/lint passed. Read-only GET snapshot refinement passed strict typechecks and all 44 integration tests before commit.
 - Generated catalog visual concept and three illustrative category photos for the synthetic catalog. UI implementation/browser verification is still pending.
+
+## 24 November 2026 — M4 catalog UI checkpoint
+
+- Backend checkpoint saved as `a474544`; notes/API/schema records synced and verified first.
+- Added responsive catalog and product detail pages, URL search/category/sort/page state, validated API responses, loading/error/retry/empty components and three original generated sample photos. Seeded records use those explicit image paths.
+- Catalog browser checks confirm actual data, combined filter/sort and reload, text search, product deep link and empty state. Design comparison/spacing refinements recorded in DESIGN_NOTES. Cart controls and full mobile/error/cart flow verification remain the next M4 part.

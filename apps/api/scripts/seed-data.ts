@@ -20,7 +20,7 @@ export async function seedCatalog(database: Database) {
         slug: `sample-item-${number}`,
         description: `Fictional ${category.name.toLowerCase()} product ${number} for Cartiva development. ${index === 25 ? 'Amber telescope special search fixture.' : 'Synthetic demonstration data only.'}`,
         categoryId: category.id,
-        imagePath: '/assets/catalog-placeholder.svg',
+        imagePath: `/assets/sample-${category.slug}.png`,
         priceMinor: index === 2 ? 1100 : 1000 + index * 100,
         stockQuantity: index === 3 ? 0 : 10 + index,
         status: index === 26 ? 'ARCHIVED' as const : index === 24 ? 'DRAFT' as const : 'ACTIVE' as const,

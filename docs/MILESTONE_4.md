@@ -64,4 +64,11 @@ UI/browser verification, final asset paths/design comparison and frontend commit
 ## Commit record
 
 - `66cc5d0`: separately reviewed/freshly verified M1–M3 baseline.
-- Backend, catalog UI and cart UI checkpoints pending.
+- `a474544`: cart schema/API, serialized mutations, ownership/concurrency tests and synced notes.
+- Catalog UI checkpoint: browse/detail routes, URL state, runtime schemas, sample assets; browser checks and documentation in progress. Cart UI checkpoint pending.
+
+## Catalog UI checkpoint
+
+Added feature modules for catalog HTTP schemas, product cards/detail, request/error states, abortable reads and MYR display. Category/product requests run in parallel; URL-keyed result components abort stale work and preserve discovery on refresh/back. Product responses are validated with the existing pinned Zod version in the web workspace.
+
+Browser verified 24 active products, AMBER TELESCOPE search returning product 25, category=desk with price-asc ordering and reload persistence, real product detail and empty-search state. Cart actions are not exposed until the cart-UI checkpoint. [Design notes](DESIGN_NOTES.md) record generated concept/assets, implementation tokens and justified data differences.

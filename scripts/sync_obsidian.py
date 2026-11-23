@@ -112,6 +112,9 @@ def main() -> None:
     # Explicit allowlist: never include the adjacent real .env file.
     example = REPO / "apps" / "api" / ".env.example"
     planned["reference/apps/api/.env.example"] = (example.read_bytes(), example)
+    concept = REPO / "docs" / "design" / "m4-catalog-concept.png"
+    if concept.is_file():
+        planned["reference/docs/design/m4-catalog-concept.png"] = (concept.read_bytes(), concept)
     for name in IMAGES:
         source = EVIDENCE / name
         if source.is_file():
@@ -144,6 +147,7 @@ Recorded results are historical; inspect current source and run relevant checks 
 - [API design](reference/docs/API_DESIGN.md)
 - [Development roadmap](reference/docs/DEVELOPMENT_ROADMAP.md)
 - [Decisions / authorization record](reference/docs/DECISIONS.md)
+- [M4 design and generated assets](reference/docs/DESIGN_NOTES.md)
 
 ## Completed milestones and learning
 
