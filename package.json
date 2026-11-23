@@ -1,0 +1,44 @@
+{
+  "name": "cartiva",
+  "version": "0.1.0",
+  "private": true,
+  "type": "module",
+  "workspaces": [
+    "apps/*"
+  ],
+  "engines": {
+    "node": ">=24.11.1 <25",
+    "npm": ">=11 <12"
+  },
+  "packageManager": "npm@11.17.0",
+  "scripts": {
+    "dev": "concurrently --kill-others --names api,web \"npm run dev -w @cartiva/api\" \"npm run dev -w @cartiva/web\"",
+    "dev:api": "npm run dev -w @cartiva/api",
+    "dev:web": "npm run dev -w @cartiva/web",
+    "lint": "eslint . --max-warnings 0",
+    "typecheck": "npm run typecheck --workspaces",
+    "test": "npm run test -w @cartiva/api",
+    "build": "npm run build --workspaces",
+    "check": "npm run lint && npm run typecheck && npm test && npm run build",
+    "start": "npm run start -w @cartiva/api",
+    "db:generate": "npm run db:generate -w @cartiva/api",
+    "db:migrate": "npm run db:migrate -w @cartiva/api",
+    "db:seed": "npm run db:seed -w @cartiva/api",
+    "test:integration": "npm run test:integration -w @cartiva/api",
+    "prepare": "npm run db:generate",
+    "db:inspect": "npm run db:inspect -w @cartiva/api",
+    "auth:setup": "npm run auth:setup -w @cartiva/api",
+    "auth:grant-admin": "npm run auth:grant-admin -w @cartiva/api --"
+  },
+  "devDependencies": {
+    "@eslint/js": "10.0.1",
+    "@types/node": "24.19.2",
+    "concurrently": "10.0.7",
+    "eslint": "10.15.0",
+    "eslint-plugin-react-hooks": "7.1.1",
+    "eslint-plugin-react-refresh": "0.5.8",
+    "globals": "17.14.0",
+    "typescript": "6.0.3",
+    "typescript-eslint": "8.73.0"
+  }
+}

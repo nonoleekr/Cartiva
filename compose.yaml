@@ -1,0 +1,35 @@
+name: cartiva
+services:
+  postgres:
+    image: postgres:17.9-alpine
+    environment:
+      POSTGRES_USER: cartiva
+      POSTGRES_PASSWORD: cartiva_local_only
+      POSTGRES_DB: cartiva_dev
+    ports:
+      - '127.0.0.1:5434:5432'
+    volumes:
+      - cartiva_dev_data:/var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U cartiva -d cartiva_dev']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+  postgres-test:
+    image: postgres:17.9-alpine
+    profiles: ['test']
+    environment:
+      POSTGRES_USER: cartiva_test
+      POSTGRES_PASSWORD: cartiva_test_only
+      POSTGRES_DB: cartiva_test
+    ports:
+      - '127.0.0.1:5435:5432'
+    tmpfs:
+      - /var/lib/postgresql/data
+    healthcheck:
+      test: ['CMD-SHELL', 'pg_isready -U cartiva_test -d cartiva_test']
+      interval: 2s
+      timeout: 3s
+      retries: 30
+volumes:
+  cartiva_dev_data:
