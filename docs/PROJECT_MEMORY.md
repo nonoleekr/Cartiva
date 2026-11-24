@@ -83,3 +83,7 @@ Read [Obsidian workflow](OBSIDIAN_WORKFLOW.md). Update repository documents and 
 The user explicitly requires every development action plan to include documentation, explanatory note-making, organized Obsidian placement/linking and sync verification. These are visible tasks and milestone completion criteria, not an implied final offer. Write notes during development; see the remaining milestone tasks in [roadmap](DEVELOPMENT_ROADMAP.md).
 
 On 24 November the user also requested local Git commit checkpoints after each significant completed part. For authorized development: implement → verify → document/sync Obsidian → review/selectively stage → commit → report actual hash/scope. Do not defer all commits to milestone end, include unrelated/untracked baseline work automatically, or push without separate authorization. The previously untracked M1–M3 baseline was deliberately reviewed and committed separately as `66cc5d0`.
+
+## M5 handoff
+
+This update supersedes the M4 boundary above. M5 was authorized and implemented. Start with [M5](MILESTONE_5.md) for checkout locks, quotes, retry behavior and verification. Backend checkpoint 2fa57b5. Local feature work stops at the M5 review boundary before M6.

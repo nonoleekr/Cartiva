@@ -1,6 +1,6 @@
 # Decisions and approval record
 
-Updated 24 November 2026. User authorized M4 after the documentation transfer and required Obsidian updates and local commits after significant parts. M4 catalog/cart is complete and locally verified; ready for review. M5 and later remain unimplemented.
+Updated 24 November 2026. User authorized M4 after the documentation transfer and required Obsidian updates and local commits after significant parts. M4 catalog/cart is complete and locally verified; ready for review. M5 was subsequently authorized, implemented and verified. M6 is pending review.
 
 Before M4, the user requested a complete documentation transfer into the added Obsidian vault and ongoing updates during development. The project hub is `D:/Ronald/Documents/obsidian_vault/Projects/Cartiva/Cartiva.md`; repository instructions and [sync workflow](OBSIDIAN_WORKFLOW.md) now require maintaining this reading/handoff layer. The later instruction to move onto the next step authorized M4 implementation and its local commit checkpoints; publishing remains unauthorized.
 
@@ -98,3 +98,7 @@ Completed: reference inspection, planning, M1 foundation, M2 catalog database/AP
 - Generated concepts precede implementation; three original category photos are explicitly illustrative and reused for synthetic products. Actual API data supersedes invented concept prices/counts. See DESIGN_NOTES for fidelity and evidence.
 - M4 uses existing tooling and browser validation rather than adding a second frontend test runner for markup. Meaningful integer totals, ownership and concurrency checks run against real PostgreSQL.
 - Each significant part has a local commit after checks, explanatory notes and verified Obsidian sync. The separately reviewed baseline is `66cc5d0`; backend `a474544`; catalog `6d7a409`; final cart/handoff commit includes this record; use Git log for its hash. No push/deployment.
+
+## M5 implementation choices
+
+Use ten-minute quotes and order-owned retry keys. Keep snapshot data on the order to preserve it after catalog edits. Scope shipping to Malaysia with a five-digit postcode for the demo. Expired quotes are pruned when that customer requests another quote.

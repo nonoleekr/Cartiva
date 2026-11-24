@@ -149,7 +149,7 @@ model CheckoutQuote {
   items Json
   expiresAt DateTime @db.Timestamptz(3)
 
-  @@index([userId, expiresAt])
+  @@index([userId, expiresAt], map: "checkout_quote_user_expiry_idx")
   @@map("checkout_quote")
 }
 
@@ -166,6 +166,6 @@ model CustomerOrder {
   createdAt DateTime @default(now()) @db.Timestamptz(3)
 
   @@unique([userId, retryKey])
-  @@index([userId, createdAt, id])
+  @@index([userId, createdAt, id], map: "customer_order_owner_history_idx")
   @@map("customer_order")
 }

@@ -71,3 +71,9 @@ This log summarizes work already evidenced in the project records. Dates below d
 
 - Final browser checks: B’s cart empty, A’s saved product01 restored after re-login; missing-product feedback, Next pagination and keyboard skip navigation verified. Removed exactly two synthetic browser users and confirmed zero remain. Final page console reported zero errors/warnings. Legacy repository remains clean.
 - Documentation delivery: 17 Markdown sources, safe environment example, two concepts, 11 historical/current screenshots and linked hub (32 managed files), with source/body/hash/link checks. The final cart/UI checkpoint commit includes these records; actual hash is reported in the handoff and Git log. No checkout work started.
+
+## 24 November 2026 — M5 simulated checkout
+
+- Backend checkpoint: 2fa57b5. Applied the checkout migration on local dev and test databases.
+- Connected shipping, quote review, placement and order history. Chromium at 375 px verified signup through placement and order history after reload.
+- Updated the learning guide and Obsidian hub before the customer-flow commit.

@@ -170,4 +170,33 @@ describe('simulated checkout on PostgreSQL', () => {
     expect(order.body.data.totalMinor).toBe(1101);
     expect((await database.product.findUniqueOrThrow({ where: { id: productId } })).stockQuantity).toBe(0);
   });
+  it('rejects expired and repriced quotes and creates one order for parallel requests from the same cart', async () => {
+    const user = users[0]!;
+    await mutation('post', '/api/v1/cart/items', user).send({ productId, quantity: 1 }).expect(200);
+    const quote = async () => (await mutation('post', '/api/v1/checkout/quotes', user).send({}).expect(201)).body.data.id as string;
+    const shipping = { recipientName: 'Fictional Customer', addressLine1: 'Demo Street', city: 'Kuala Lumpur', postalCode: '50000', country: 'MY' };
+    const place = (quoteId: string) => mutation('post', '/api/v1/orders', user)
+      .set('Idempotency-Key', randomUUID()).send({ quoteId, shipping });
+
+    const expired = await quote();
+    await database.checkoutQuote.update({ where: { id: expired }, data: { expiresAt: new Date(0) } });
+    await place(expired).expect(409);
+    const oldPrice = await quote();
+    await database.product.update({ where: { id: productId }, data: { priceMinor: 1199 } });
+    await place(oldPrice).expect(409);
+    const current = await quote();
+    // Force the order insert to fail after checkout has already decremented stock.
+    await sql.query('ALTER TABLE customer_order ADD CONSTRAINT checkout_rollback_fixture CHECK ("totalMinor" <> 1199)');
+    try {
+      await place(current).expect(500);
+      expect((await database.product.findUniqueOrThrow({ where: { id: productId } })).stockQuantity).toBe(10);
+      expect(await database.cartItem.count({ where: { productId } })).toBe(1);
+    } finally {
+      await sql.query('ALTER TABLE customer_order DROP CONSTRAINT checkout_rollback_fixture');
+    }
+    const pair = await Promise.all([place(current), place(current)]);
+    expect(pair.map(result => result.status).sort()).toEqual([201, 409]);
+    expect((await database.product.findUniqueOrThrow({ where: { id: productId } })).stockQuantity).toBe(9);
+  });
+
 });

@@ -24,4 +24,4 @@ The repository owns versioned technical documents; Obsidian contains linked copi
 
 Do not copy `.env`, real credentials, browser/session data, database dumps, dependency folders or build output into the vault. Only the explicitly safe `.env.example` is included with documentation. Do not change Obsidian settings or plugins. If the vault is unavailable or access is rejected, finish the repository documentation and report the exact sync limitation rather than claiming it succeeded.
 
-Current boundary: M1–M4 completed; M4 authorized and locally verified on 24 November 2026. Present M4 for review; stop before M5 checkout. Local commit checkpoints and documentation/Obsidian updates are required. No push or publishing is authorized.
+Current boundary: M1–M5 implemented. Present M5 for review before M6 administration. Local commit checkpoints and documentation/Obsidian updates are required. No push or publishing is authorized.

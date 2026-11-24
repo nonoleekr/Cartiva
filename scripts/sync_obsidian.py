@@ -129,7 +129,7 @@ def main() -> None:
 
 ## Resume here
 
-M1–M4 are implemented and locally verified. M5 checkout is authorized and underway.
+M1–M4 are implemented and locally verified. M5 checkout and customer orders are implemented and ready for review.
 Catalog/product/cart UI uses the real API and an account-owned PostgreSQL cart.
 
 - [Project memory / handoff](reference/docs/PROJECT_MEMORY.md)
@@ -159,8 +159,8 @@ Recorded results are historical; inspect current source and run relevant checks 
 - [M3: authentication, sessions, authorization](reference/docs/MILESTONE_3.md)
 - [M4: catalog, product pages and persistent cart](reference/docs/MILESTONE_4.md)
 
-Latest recorded run (24 November 2026): 23 HTTP/config/safety tests and 44 PostgreSQL
-integration tests passed (67 total), with lint/typechecks/builds and Chromium UI checks.
+Latest recorded run (24 November 2026): 23 HTTP/config/safety tests and 46 PostgreSQL
+integration tests passed (69 total), with lint/typechecks/builds and Chromium UI checks.
 These tests were not rerun merely to copy documentation. CI/hosted TLS/other browsers
 remain unverified. No default admin account, real payment processing or deployment.
 
@@ -192,8 +192,8 @@ These show synthetic local verification, not a hosted release.
 
 ## Pending decisions / next actions
 
-- Finish M5 customer interface and verification.
-- Keep checkout for M5 and admin management for M6.
+- Review M5 before starting M6 administration.
+- Administration and fulfillment belong to M6.
 - Confirm actual hosting budget, public signup policy, TLS/proxy behavior and recovery
   readiness before public deployment; never confuse demo safeguards with production readiness.
 """

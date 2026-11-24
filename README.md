@@ -2,7 +2,7 @@
 
 A full-stack, single-store e-commerce learning project and future internship portfolio application.
 
-**Status: M4 complete and locally verified; ready for review before M5.** Browse, search/filter/sort/page, product details, signup/sign-in and account-owned cart are connected to PostgreSQL. Checkout, orders, admin screens and deployment remain future milestones.
+**Status: M5 simulated checkout and customer orders are implemented.** Browse, search/filter/sort/page, product details, signup/sign-in and account-owned cart are connected to PostgreSQL. Signed-in customers can review a quote, place a simulated order and read their order history. Admin screens and deployment remain future milestones.
 
 The reference repository at `D:/Coding_Projects/simple-ecommerce-cart-system` contains a Java Swing assignment and a later Spring Boot/React modernization. Both are reference material only. Cartiva will be built independently here; no legacy code, runtime data, or assets have been copied.
 
@@ -114,8 +114,8 @@ npm start
 
 Replace the example origin/database with the deployment values and configure a production secret securely; never deploy local credentials. The server binds `0.0.0.0` by default in production. Secure cookies require the configured HTTPS public origin, not plain HTTP localhost. For local auth use `npm run dev`. Remove temporary shell overrides before returning to development. The start command loads `apps/api/.env`; shell variables take precedence. Hosted TLS/proxy behavior is still unverified.
 
-Health: `GET /api/v1/health/live` proves the process responds. `GET /api/v1/health/ready` checks DB connectivity. Public catalog: `GET /api/v1/products`, `GET /api/v1/products/sample-item-01`, `GET /api/v1/categories`. M3 enables the four documented auth routes plus `/api/v1/me` and `/api/v1/csrf`; M4 adds owned cart read/add/replace/remove endpoints. Checkout/order/admin routes remain absent. Missing `/api` routes return JSON 404 even when the browser requests HTML.
+Health: `GET /api/v1/health/live` proves the process responds. `GET /api/v1/health/ready` checks DB connectivity. Public catalog: `GET /api/v1/products`, `GET /api/v1/products/sample-item-01`, `GET /api/v1/categories`. M3 enables the four documented auth routes plus `/api/v1/me` and `/api/v1/csrf`; M4 adds owned cart read/add/replace/remove endpoints. M5 adds checkout quotes and owned order endpoints. Missing `/api` routes return JSON 404 even when the browser requests HTML.
 
 For local admin learning, register an account then run `npm run auth:grant-admin -- your-email@example.invalid --confirm`. This only accepts local Cartiva development/test databases, grants the role to an existing user and revokes that user's sessions. Sign in again. No admin credentials are committed or pre-seeded.
 
-Review [M4 learning and verification](docs/MILESTONE_4.md) before M5 simulated checkout. No payments or orders can be placed yet.
+Review [M5 learning and verification](docs/MILESTONE_5.md) before M6 administration.

@@ -1,8 +1,8 @@
 # REST API — proposed contract
 
-M4 implementation: the four customer-owned cart endpoints below are now implemented on top of M3 auth/CSRF. Catalog/detail/cart UI is connected; see M4 verification record. GET absent-cart id is null; DELETE item sends JSON `{}`. Cart lines expose current prices and availability AVAILABLE/INSUFFICIENT_STOCK/UNAVAILABLE; unavailable lines remain removable. No checkout/order/admin endpoints are implemented.
+M4 implementation: the four customer-owned cart endpoints below are now implemented on top of M3 auth/CSRF. Catalog/detail/cart UI is connected; see M4 verification record. GET absent-cart id is null; DELETE item sends JSON `{}`. Cart lines expose current prices and availability AVAILABLE/INSUFFICIENT_STOCK/UNAVAILABLE; unavailable lines remain removable. M5 implements checkout quotes and owned order endpoints. Admin endpoints remain planned.
 
-Implemented through M3: public catalog and health endpoints, the four auth routes below, `/api/v1/me`, `/api/v1/csrf`, and JSON API 404s. Cart endpoints are implemented in M4; order/admin endpoints remain planned. Domain routes use `/api/v1`; auth uses Better Auth's `/api/auth` namespace. Cookies are same-origin sessions. Auth POSTs require exact Origin and bounded JSON; cart mutations additionally require the session-bound CSRF token. Never accept a customerId or role as authorization evidence from the client.
+Implemented through M3: public catalog and health endpoints, the four auth routes below, `/api/v1/me`, `/api/v1/csrf`, and JSON API 404s. Cart endpoints are implemented in M4; checkout/orders are implemented in M5 and admin endpoints remain planned. Domain routes use `/api/v1`; auth uses Better Auth's `/api/auth` namespace. Cookies are same-origin sessions. Auth POSTs require exact Origin and bounded JSON; cart mutations additionally require the session-bound CSRF token. Never accept a customerId or role as authorization evidence from the client.
 
 ## Endpoints
 
@@ -81,3 +81,7 @@ Success domain response `{ data: ... }` except paginated meta and 204. Domain er
 Avoid caching private/session/cart/order responses (`Cache-Control: no-store`). No automatic retries for non-idempotent mutations. For uncertain checkout results retry the identical body/key; do not generate another key automatically. Use request IDs across logs without storing credentials/addresses. Serialize bounded money as JSON integers, not floating decimal currency or BigInt literals.
 
 Maintain an OpenAPI document as routes are implemented; contract tests must verify representative response/error cases. The planning contract is not proof endpoints are available.
+
+## M5 implemented response details
+
+POST checkout quotes accepts an empty JSON object and returns an ID, expiry, reviewed lines and totalMinor. POST orders takes the documented shipping object and retry key and returns the order ID. The same normalized request replays with 200. A changed request using an existing key, changed cart or price, expiry or unavailable stock returns 409. GET orders accepts page 1–99999, returns 20 summaries at most and hasNext. GET order detail returns stored lines and shipping. All routes require a session and both writes require CSRF.

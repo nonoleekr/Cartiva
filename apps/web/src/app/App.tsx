@@ -7,6 +7,8 @@ import { CatalogPage } from '../features/catalog/CatalogPage';
 import { ProductPage } from '../features/catalog/ProductPage';
 import { CartPage } from '../features/cart/CartPage';
 
+import { CheckoutScreen } from '../features/checkout/Checkout';
+
 export function App() {
   const { user, status } = useSession();
   return <div className="mx-auto flex min-h-screen max-w-[1296px] flex-col px-6 sm:px-12">
@@ -23,12 +25,15 @@ export function App() {
       <Routes>
         <Route path="/" element={<CatalogPage />} />
         <Route path="/products/:slug" element={<ProductPage />} />
+        <Route path="/checkout" element={<CheckoutScreen mode="checkout" />} />
+        <Route path="/orders" element={<CheckoutScreen mode="history" />} />
+        <Route path="/orders/:id" element={<CheckoutScreen mode="order" />} />
         <Route path="/cart" element={<CartPage />} />
         <Route path="/status" element={<FoundationPage />} />
         <Route path="/sign-in" element={<AuthPage key="sign-in" mode="sign-in" />} />
         <Route path="/sign-up" element={<AuthPage key="sign-up" mode="sign-up" />} />
         <Route path="/account" element={<AccountPage />} />
-        <Route path="/about" element={<section className="max-w-2xl py-16 sm:py-24"><h1 className="text-4xl font-semibold tracking-tight">Built to learn. Built step by step.</h1><p className="mt-6 text-lg leading-8 text-stone-600">Cartiva is an independent e-commerce learning project. This first milestone connects a React interface to an Express API.</p><p className="mt-4 leading-7 text-stone-600">Browse the illustrative catalog and manage a cart saved to your account. Checkout and real payments are not available.</p><Link to="/" className="mt-8 inline-block font-semibold text-emerald-900 underline underline-offset-4">Back to home</Link></section>} />
+        <Route path="/about" element={<section className="max-w-2xl py-16 sm:py-24"><h1 className="text-4xl font-semibold tracking-tight">Built to learn. Built step by step.</h1><p className="mt-6 text-lg leading-8 text-stone-600">Cartiva is an independent e-commerce learning project. This first milestone connects a React interface to an Express API.</p><p className="mt-4 leading-7 text-stone-600">Browse the illustrative catalog and manage a cart saved to your account. Checkout and orders are simulated.</p><Link to="/" className="mt-8 inline-block font-semibold text-emerald-900 underline underline-offset-4">Back to home</Link></section>} />
         <Route path="*" element={<section className="py-16"><h1 className="text-4xl font-semibold">Page not found</h1><Link to="/" className="mt-6 inline-block underline">Return home</Link></section>} />
       </Routes>
     </main>

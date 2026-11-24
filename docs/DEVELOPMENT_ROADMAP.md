@@ -1,6 +1,6 @@
 # Development roadmap — proposed
 
-Current state: architecture/stack/roadmap approved on 19 November 2026. User's “next step” on 23 November authorized M3 after M2. **M1–M4 complete and locally verified; M4 ready for review. M5–M8 not started.** See [M4 record](MILESTONE_4.md). Implement only one milestone at a time. Each finishes with a demonstration, explanation, recorded checks/gaps, and user review before the next begins. Do not scaffold all future modules at once.
+Current state: architecture/stack/roadmap approved on 19 November 2026. User's “next step” on 23 November authorized M3 after M2. **M1–M5 implemented. M6–M8 remain future work.** See [M5 record](MILESTONE_5.md). Implement only one milestone at a time. Each finishes with a demonstration, explanation, recorded checks/gaps, and user review before the next begins. Do not scaffold all future modules at once.
 
 Dependencies: approval → M1 → M2 → M3 → M4 → M5 → M6 → M7. M8 optional work is deliberately not scheduled into MVP.
 
