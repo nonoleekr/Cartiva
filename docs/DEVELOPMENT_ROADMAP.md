@@ -175,11 +175,16 @@ For each checkpoint: inspect status/diff, run checks appropriate to that part, f
 
 **Done:** verified release evidence and known limitations recorded, user can explain React→API→DB and checkout concurrency; release/operations/learning notes are organized in Obsidian and sync-verified. Publishing requires the user's then-current authorization; this plan creates no hosting resources now.
 
-## M8 — Optional enhancement selection
+## 2027 — Commercial store resumption
 
-Choose one enhancement after MVP review, then write its own tasks/acceptance/tests before implementation. Suggested order: wishlist → advanced filters → sales dashboard. Reviews, guest merge, cancellation/restock and real payment sandbox each require explicit new business rules; never bundle them into a single milestone.
+The 2026 portfolio phase is closed. Resume by reviewing the [closure handoff](PROJECT_CLOSURE.md), the deployed baseline, and current provider terms. Scope the commercial storefront to products sold and fulfilled by the operator.
 
-Every enhancement plan must also name its explanatory note, owning documents to update, and Obsidian organization/sync-verification tasks. Documentation completion remains an acceptance criterion.
+1. **Define store operations.** Decide supported markets, stock and shipping rules, customer support, cancellations, returns and refunds. Confirm the applicable privacy, consumer and tax obligations before collecting real customer information.
+2. **Design and verify payments in a sandbox.** Choose a provider after comparing availability, fees, settlement, refund support and hosted checkout. Define payment state separately from fulfillment. Verify signed payment events, persist and deduplicate event IDs, reconcile delayed or repeated events, and establish when inventory is reserved and released. Fulfillment starts only after payment is confirmed.
+3. **Prepare commercial fulfillment.** Add workflows for shipment references, customer notifications, refunds and operational reconciliation. Exercise failed payments, out-of-order events, duplicate submissions and fulfillment exceptions.
+4. **Run a launch rehearsal.** Choose hosting and database capacity, verify backups and restoration, configure monitoring and account recovery, and use a separate staging environment. Review the launch checklist before accepting live payments.
+
+Reviews, wishlists, and other portfolio enhancements remain optional. Prepare a separate implementation plan for each commercial stage, including checks, Git checkpoints and Obsidian updates.
 
 ## Universal review record
 

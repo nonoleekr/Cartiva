@@ -103,3 +103,7 @@ The dedicated portal shell, list controls, order counts and image preview are do
 ## Hosted user-testing follow-up
 
 Product visibility, customer order history and optional saved shipping are documented in [User testing improvements](USER_TESTING_IMPROVEMENTS.md). The migration must run before the revised API starts. Local verification and publication are separate release checkpoints.
+
+## 2026 closure
+
+The user accepted the portfolio demo and closed the phase. Resume in 2027 with the [closure handoff](PROJECT_CLOSURE.md) and [commercial roadmap](DEVELOPMENT_ROADMAP.md#2027--commercial-store-resumption).

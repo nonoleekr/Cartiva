@@ -133,7 +133,7 @@ def main() -> None:
 
 ## Resume here
 
-M1–M6 are implemented and locally verified. M7 local release preparation is verified. The user completed hosted acceptance and reported no issues.
+The 2026 Cartiva portfolio phase is closed. Resume in 2027 from the closure handoff and commercial roadmap.
 Catalog/product/cart UI uses the real API and an account-owned PostgreSQL cart.
 
 - [Project memory / handoff](reference/docs/PROJECT_MEMORY.md)
@@ -163,8 +163,8 @@ Recorded results are historical; inspect current source and run relevant checks 
 - [M3: authentication, sessions, authorization](reference/docs/MILESTONE_3.md)
 - [M4: catalog, product pages and persistent cart](reference/docs/MILESTONE_4.md)
 
-Latest recorded run (24 November 2026): 23 HTTP/config/safety tests and 48 PostgreSQL
-integration tests passed (71 total), with lint/typechecks/builds and Chromium UI checks.
+Latest recorded run (24 November 2026): 23 HTTP/config/safety tests and 49 PostgreSQL
+integration tests passed (72 total), with lint/typechecks/builds and Chromium UI checks.
 These tests were not rerun merely to copy documentation. CI/hosted TLS/other browsers
 remain unverified. No default admin account, real payment processing or deployment.
 
@@ -180,6 +180,8 @@ remain unverified. No default admin account, real payment processing or deployme
 
 - [User testing improvements](reference/docs/USER_TESTING_IMPROVEMENTS.md)
 - [User testing release notes](reference/docs/USER_TESTING_RELEASE.md)
+
+- [Project closure and 2027 handoff](reference/docs/PROJECT_CLOSURE.md)
 
 ## Keep the notes current
 

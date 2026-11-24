@@ -4,6 +4,8 @@ Cartiva is a full-stack e-commerce portfolio demo with a storefront and a separa
 
 [Live demo](https://cartiva-demo.onrender.com/) · [Admin sign-in](https://cartiva-demo.onrender.com/admin/sign-in) · [Release runbook](docs/RELEASE_RUNBOOK.md)
 
+The 2026 portfolio development phase is closed. The hosted demo uses simulated checkout and fictional product data. See the [closure handoff](docs/PROJECT_CLOSURE.md) for limitations and the [roadmap](docs/DEVELOPMENT_ROADMAP.md#2027--commercial-store-resumption) for the planned 2027 transition to selling your own products.
+
 ## Features in this revision
 
 - **Storefront:** browse published products, search, filter by category, sort, and open product details.

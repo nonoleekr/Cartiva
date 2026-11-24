@@ -97,3 +97,7 @@ Added database-backed lists and order status counts in 3cd7e2d. Redesigned admin
 ## 24 November 2026 — Approved user-testing improvements
 
 Saved product publication and My Orders as b5f5e22, and filterable owner-scoped history and order receipts as ec46418. Added opt-in saved shipping with account isolation and independent order snapshots. Chromium verified prefill after refreshing and signing in again, plus keyboard status changes and responsive order history. See [user testing improvements](USER_TESTING_IMPROVEMENTS.md).
+
+## 24 November 2026 — Portfolio phase closure
+
+Recorded the accepted live baseline, project limitations and commercial resumption roadmap. Updated README, the release handoff and the Obsidian hub. The closure checkpoint changes documentation only.
