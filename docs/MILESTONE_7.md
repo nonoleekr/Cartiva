@@ -34,3 +34,7 @@ CI checks each proposed code change. Deployment promotes an approved build with 
 ## Deployment handoff
 
 [Hosted release runbook](RELEASE_RUNBOOK.md) records the proposed Render setup, migration and backup sequence, admin bootstrap and hosted acceptance checks. Hosting tier, database provider and publication scope require confirmation.
+
+## First hosted verification
+
+The public Render service is https://cartiva-demo.onrender.com/. HTTPS checks returned 200 for the storefront, admin sign-in deep link, database readiness, and product API. The product API returned zero records. An anonymous admin API request returned 401 and an unknown API route returned JSON 404. Hosted sign-in, admin provisioning, catalog setup, checkout and fulfillment still need verification with a dedicated demo account and fictional products.
