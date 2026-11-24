@@ -115,6 +115,9 @@ def main() -> None:
     # Explicit allowlist: never include the adjacent real .env file.
     example = REPO / "apps" / "api" / ".env.example"
     planned["reference/apps/api/.env.example"] = (example.read_bytes(), example)
+    for name in ("storefront.png", "admin-products.png"):
+        screenshot = REPO / "docs" / "screenshots" / name
+        planned[f"reference/docs/screenshots/{name}"] = (screenshot.read_bytes(), screenshot)
     for name in ["m4-catalog-concept.png", "m4-cart-concept.png"]:
         concept = REPO / "docs" / "design" / name
         if concept.is_file():
@@ -176,6 +179,7 @@ remain unverified. No default admin account, real payment processing or deployme
 - [Admin portal polish](reference/docs/ADMIN_PORTAL_UX.md)
 
 - [User testing improvements](reference/docs/USER_TESTING_IMPROVEMENTS.md)
+- [User testing release notes](reference/docs/USER_TESTING_RELEASE.md)
 
 ## Keep the notes current
 
