@@ -15,3 +15,7 @@ The repository currently identifies builds by commit. The package manifests rema
 ## Verification
 
 The candidate passed local lint, type checks, production builds, 23 HTTP/configuration tests, 49 PostgreSQL integration tests and the compiled release smoke. The screenshots in the README show representative local views. Hosted verification is tracked separately from GitHub publication.
+
+## Hosted verification
+
+Render reported a successful deployment for ff4a8ab. A regular Chromium session confirmed HTTPS storefront and deep links, database readiness and one public product. The deployed saved-shipping, customer orders and admin orders endpoints returned the expected signed-out 401. A plain HTTP client received an edge browser challenge, so the public checks were repeated in Chromium. Signed-in saved-shipping, publication and order-history interactions were exercised locally and remain unverified on this hosted revision.
