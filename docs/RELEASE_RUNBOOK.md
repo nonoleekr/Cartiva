@@ -1,12 +1,12 @@
 # Cartiva hosted release runbook
 
-Candidate topology: one Render Node web service and one managed PostgreSQL database. The app serves the compiled UI and API under the service HTTPS origin. This keeps session cookies and CSRF checks on the same origin. Use the provider subdomain for the first candidate.
+Approved free-tier topology: one Render Free Node web service and a dedicated Neon Free PostgreSQL project. Use a direct Neon connection with TLS for this single-instance demo. The app serves the compiled UI and API under the service HTTPS origin. This keeps session cookies and CSRF checks on the same origin. Use the provider subdomain for the first candidate.
 
 | Setting | Candidate value |
 | --- | --- |
 | Service root | Repository root |
 | Node version | 24.11.1 |
-| Build | npm install --global npm@11.17.0 && npm ci --include=dev && npm run build |
+| Build | npm install --global npm@11.17.0 && npm ci --include=dev && npm run build && npm run db:migrate |
 | Start | npm start |
 | Health check | /api/v1/health/ready |
 | Auto-deploy | Off for first release |
@@ -33,3 +33,12 @@ Candidate topology: one Render Node web service and one managed PostgreSQL datab
 - Check that the proxy preserves the public origin. Confirm rate limiting is appropriate for users behind the proxy. The current limiter groups by socket peer and is process-local.
 - With fictional customers and a dedicated test product, verify browse, cart, checkout, customer order history, admin shipping, and customer status after an app restart. Verify keyboard navigation and mobile layouts on the built deployment.
 - Record measured first idle request and warm readiness timing alongside the host tier. Review logs for accidental personal data. Keep recovery/verification email limitations visible and use fictional shipping data.
+
+
+## Free deployment handoff
+
+The root Render Blueprint pins the Free web plan, disables automatic deploys, generates an auth secret, and takes the public origin from Render. During Blueprint setup, supply the dedicated Neon connection in the Render secret field. Never paste it into a note or commit it. The build runs migrations after compilation because the Free web tier has no pre-deploy command. Review schema compatibility before subsequent builds, since the running revision shares the database. The hosted database starts empty and needs the admin bootstrap and fictional catalog described above.
+
+Render Free services sleep after inactivity and workspace usage can affect charges. Use a workspace configured to avoid paid overages and stay within included usage. Render's own Free database expires after 30 days, so use the separate Neon Free project for this demo. [Render Free limits](https://render.com/docs/free) · [Neon Free plan](https://neon.com/blog/neon-free-plan-1-gb-per-project)
+
+Provider provisioning and HTTPS acceptance require access to the Render and Neon accounts. No hosted database, service or URL has been verified yet.
