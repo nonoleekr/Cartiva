@@ -19,3 +19,5 @@ Chromium verified keyboard publish and unpublish, saved status after refresh, My
 Final local gates passed lint, type checks, both builds, 23 HTTP/configuration tests, 49 PostgreSQL integration tests and the production-build smoke. The integration suite upgraded the existing test schema and confirmed opt-in, opt-out, account isolation, replay after a newer save and unchanged historical shipping.
 
 The status description now emphasizes Unpublished and the green publish action, with a green Active indicator and a contrast-aware dark-mode description. The publication workflow and wording are unchanged.
+
+The status description inherits its panel background. OS dark preference no longer recolors the light portal. Explicit dark surfaces use readable slate and emerald text. Both saved status labels use the same semibold weight. The web build and Chromium computed-style checks passed.

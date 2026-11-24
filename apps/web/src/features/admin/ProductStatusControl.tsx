@@ -23,14 +23,16 @@ export function ProductStatusControl({ saved, selected, onChange }: {
         </span>
       </label>)}
     </div>
-    <p id="product-visibility" aria-live="polite" className="text-sm text-slate-700 dark:rounded dark:bg-slate-900 dark:p-2 dark:text-slate-200">
+    <p id="product-visibility" aria-live="polite" className="product-status-description text-sm">
       <span aria-hidden="true">{published ? '◉' : '⊘'} </span>
-      {published ? 'Published. Customers can view this product on the storefront.' : <>
+      {published ? <>
+        <span className="product-status-accent font-semibold">Published</span>. Customers can view this product on the storefront.
+      </> : <>
         <span className="font-semibold">Unpublished</span>. Customers cannot see this product on the storefront.
       </>}
       {' '}{published ? (pending ? 'Save to unpublish.' : '') : <>
         {pending ? 'Save to ' : 'Select Active and save to '}
-        <span className="font-semibold text-emerald-800 dark:text-emerald-300">publish</span>.
+        <span className="product-status-accent font-semibold">publish</span>.
       </>}
     </p>
   </fieldset>;
