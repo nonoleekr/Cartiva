@@ -22,6 +22,7 @@ model User {
   sessions      Session[]
   accounts      Account[]
   cart          Cart?
+  savedShipping Json?
   checkoutQuotes CheckoutQuote[]
   orders CustomerOrder[]
 

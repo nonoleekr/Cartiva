@@ -87,3 +87,7 @@ The migration creates checkout_quote and customer_order. Reviewed and purchased 
 ## M6 order and inventory concurrency
 
 The fulfillment migration adds customer_order.version with default zero and constrains status to PLACED, PROCESSING, SHIPPED and DELIVERED. Conditional updates compare the expected version and increment it on changes. Checkout already increments product versions when decrementing stock, so a concurrent admin adjustment cannot overwrite that change.
+
+## Saved checkout address
+
+Migration 202611240004_saved_shipping adds nullable user.savedShipping JSONB for one account-owned, validated address. Existing accounts need no backfill. customer_order.shipping remains the immutable purchase snapshot. Application rollback can keep the new nullable column.

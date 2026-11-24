@@ -9,12 +9,14 @@ import { requireCsrf, requireSession } from '../auth/auth.middleware.js';
 import { ApiError } from '../../lib/errors.js';
 
 const field = z.string().trim().min(1).max(120);
+const shippingSchema = z.strictObject({
+  recipientName: field, addressLine1: field, city: field,
+  postalCode: z.string().trim().regex(/^\d{5}$/), country: z.literal('MY')
+});
 const inputSchema = z.strictObject({
   quoteId: z.uuid(),
-  shipping: z.strictObject({
-    recipientName: field, addressLine1: field, city: field,
-    postalCode: z.string().trim().regex(/^\d{5}$/), country: z.literal('MY')
-  })
+  shipping: shippingSchema,
+  saveShipping: z.boolean().optional()
 });
 
 function parse<T>(schema: z.ZodType<T>, input: unknown): T {
@@ -66,6 +68,13 @@ export function checkoutRoutes(auth: Auth, database: Database, settings: AuthSet
   const session = requireSession(auth, database);
   const mutation = [session, requireCsrf(settings.secret, settings.origin), express.json({ limit: '16kb' })];
 
+  router.get('/checkout/saved-shipping', session, async (_request, response) => {
+    const userId = response.locals.identity.user.id as string;
+    const account = await database.user.findUniqueOrThrow({ where: { id: userId }, select: { savedShipping: true } });
+    const saved = shippingSchema.safeParse(account.savedShipping);
+    response.json({ data: saved.success ? saved.data : null });
+  });
+
   router.post('/checkout/quotes', ...mutation, async (request, response) => {
     parse(z.strictObject({}), request.body);
     const userId = response.locals.identity.user.id as string;
@@ -113,6 +122,9 @@ export function checkoutRoutes(auth: Auth, database: Database, settings: AuthSet
         await tx.product.update({ where: { id: item.productId }, data: { stockQuantity: { decrement: item.quantity }, version: { increment: 1 } } });
       }
       const order = await tx.customerOrder.create({ data: { userId, retryKey, requestHash, items, shipping: input.shipping, totalMinor: total(items) } });
+      if (input.saveShipping) {
+        await tx.user.update({ where: { id: userId }, data: { savedShipping: input.shipping } });
+      }
       await tx.cartItem.deleteMany({ where: { cartId: cart.id } });
       await tx.cart.update({ where: { id: cart.id }, data: { revision: { increment: 1 } } });
       return { id: order.id, replay: false };

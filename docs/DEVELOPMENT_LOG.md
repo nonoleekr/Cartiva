@@ -93,3 +93,7 @@ This log summarizes work already evidenced in the project records. Dates below d
 ## 24 November 2026 — Admin portal polish
 
 Added database-backed lists and order status counts in 3cd7e2d. Redesigned admin authentication, dashboard and work areas, and shared pagination with the catalog. Chromium verified role gating, lists, previews and management actions at desktop, tablet and mobile widths. See [admin portal notes](ADMIN_PORTAL_UX.md).
+
+## 24 November 2026 — Approved user-testing improvements
+
+Saved product publication and My Orders as b5f5e22, and filterable owner-scoped history and order receipts as ec46418. Added opt-in saved shipping with account isolation and independent order snapshots. Chromium verified prefill after refreshing and signing in again, plus keyboard status changes and responsive order history. See [user testing improvements](USER_TESTING_IMPROVEMENTS.md).

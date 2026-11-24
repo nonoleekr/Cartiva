@@ -177,6 +177,34 @@ describe('simulated checkout on PostgreSQL', () => {
 
     expect((await database.product.findUniqueOrThrow({ where: { id: productId } })).stockQuantity).toBe(0);
   });
+  it('saves shipping only on successful opt-in and isolates it from other accounts and old orders', async () => {
+    const owner = users[0]!;
+    const other = users[1]!;
+    const first = { recipientName: 'Fictional Buyer', addressLine1: '10 Demo Street', city: 'Ipoh', postalCode: '30000', country: 'MY' };
+    const second = { ...first, addressLine1: '20 Demo Street' };
+    const saved = '/api/v1/checkout/saved-shipping';
+    await request(app).get(saved).expect(401);
+    expect((await request(app).get(saved).set('Cookie', owner.cookie).expect(200)).body.data).toBeNull();
+    async function prepare(shipping: typeof first, saveShipping: boolean) {
+      await mutation('post', '/api/v1/cart/items', owner).send({ productId, quantity: 1 }).expect(200);
+      const quote = await mutation('post', '/api/v1/checkout/quotes', owner).send({}).expect(201);
+      const key = randomUUID();
+      return () => mutation('post', '/api/v1/orders', owner).set('Idempotency-Key', key)
+        .send({ quoteId: quote.body.data.id, shipping, saveShipping });
+    }
+    const placeFirst = await prepare(first, true);
+    const initial = await placeFirst().expect(201);
+    expect((await request(app).get(saved).set('Cookie', owner.cookie).expect(200)).body.data).toEqual(first);
+    expect((await request(app).get(saved).set('Cookie', other.cookie).expect(200)).body.data).toBeNull();
+    await (await prepare(second, false))().expect(201);
+    expect((await request(app).get(saved).set('Cookie', owner.cookie).expect(200)).body.data).toEqual(first);
+    await (await prepare(second, true))().expect(201);
+    await placeFirst().expect(200);
+    expect((await request(app).get(saved).set('Cookie', owner.cookie).expect(200)).body.data).toEqual(second);
+    const original = await request(app).get('/api/v1/orders/' + initial.body.data.id).set('Cookie', owner.cookie).expect(200);
+    expect(original.body.data.shipping).toEqual(first);
+  });
+
   it('rejects expired and repriced quotes and creates one order for parallel requests from the same cart', async () => {
     const user = users[0]!;
     await mutation('post', '/api/v1/cart/items', user).send({ productId, quantity: 1 }).expect(200);

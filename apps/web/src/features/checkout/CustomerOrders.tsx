@@ -6,12 +6,12 @@ import { ErrorState, LoadingState } from '../../components/RequestState';
 import { requestJson } from '../../lib/http';
 import { money } from '../../lib/money';
 import { useRemote } from '../../lib/useRemote';
+import { shippingSchema } from './shipping';
 
 const stages = ['PLACED', 'PROCESSING', 'SHIPPED', 'DELIVERED'] as const;
 const date = (value: string) => new Date(value).toLocaleDateString();
 const summary = z.object({ id: z.uuid(), totalMinor: z.number().int(), status: z.enum(stages), createdAt: z.string() });
 const history = z.object({ data: z.object({ items: z.array(summary.extend({ itemCount: z.number().int() })), page: z.number().int(), hasNext: z.boolean() }) });
-export const shippingSchema = z.object({ recipientName: z.string(), addressLine1: z.string(), city: z.string(), postalCode: z.string(), country: z.literal('MY') });
 const detail = z.object({ data: summary.extend({
   shipping: shippingSchema,
   items: z.array(z.object({ productId: z.uuid(), name: z.string(), quantity: z.number().int(), unitPriceMinor: z.number().int() }))

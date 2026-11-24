@@ -99,3 +99,7 @@ M7 local release preparation passed 71 automated tests, the compiled-server smok
 ## Admin portal polish before publication
 
 The dedicated portal shell, list controls, order counts and image preview are documented in [Admin portal UX](ADMIN_PORTAL_UX.md). Public hosting remains pending. Verify the portal in the hosted release before sharing a live URL.
+
+## Hosted user-testing follow-up
+
+Product visibility, customer order history and optional saved shipping are documented in [User testing improvements](USER_TESTING_IMPROVEMENTS.md). The migration must run before the revised API starts. Local verification and publication are separate release checkpoints.
