@@ -22,6 +22,8 @@ model User {
   sessions      Session[]
   accounts      Account[]
   cart          Cart?
+  checkoutQuotes CheckoutQuote[]
+  orders CustomerOrder[]
 
   @@unique([email])
   @@map("user")
@@ -136,4 +138,34 @@ model CartItem {
 
   @@unique([cartId, productId])
   @@map("cart_item")
+}
+
+model CheckoutQuote {
+  id String @id @default(uuid()) @db.Uuid
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cartId String @db.Uuid
+  revision Int
+  items Json
+  expiresAt DateTime @db.Timestamptz(3)
+
+  @@index([userId, expiresAt])
+  @@map("checkout_quote")
+}
+
+model CustomerOrder {
+  id String @id @default(uuid()) @db.Uuid
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  retryKey String @db.Uuid
+  requestHash String
+  items Json
+  shipping Json
+  totalMinor Int
+  status String @default("PLACED")
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  @@unique([userId, retryKey])
+  @@index([userId, createdAt, id])
+  @@map("customer_order")
 }

@@ -39,6 +39,7 @@ beforeEach(async () => {
   await database.product.update({ where: { id: productId }, data: { status: 'ACTIVE', priceMinor: 1101, stockQuantity: 10 } });
 });
 afterAll(async () => {
+  await database.customerOrder.deleteMany({ where: { userId: { in: users.map(user => user.id) } } });
   await database.user.deleteMany({ where: { id: { in: users.map((user) => user.id) } } });
   await database.product.deleteMany({ where: { categoryId } });
   await database.category.deleteMany({ where: { id: categoryId } });
@@ -145,5 +146,28 @@ describe('owned cart on real PostgreSQL', () => {
     expect(failed.body.error.code).toBe('CART_LIMIT');
     await expect(sql.query('UPDATE cart_item SET quantity = 0 WHERE "cartId" = $1', [cart.id])).rejects.toMatchObject({ code: '23514' });
     await expect(database.cartItem.create({ data: { cartId: cart.id, productId: products[0]!.id, quantity: 1 } })).rejects.toMatchObject({ code: 'P2002' });
+  });
+});
+
+describe('simulated checkout on PostgreSQL', () => {
+  it('sells the final unit once and replays the winning request after the cart clears', async () => {
+    for (const user of users) await mutation('post', '/api/v1/cart/items', user).send({ productId, quantity: 1 }).expect(200);
+    const quotes = await Promise.all(users.map(user => mutation('post', '/api/v1/checkout/quotes', user).send({}).expect(201)));
+    await database.product.update({ where: { id: productId }, data: { stockQuantity: 1 } });
+    const keys = users.map(() => randomUUID());
+    const shipping = { recipientName: 'Fictional Customer', addressLine1: 'Demo Street', city: 'Kuala Lumpur', postalCode: '50000', country: 'MY' };
+    const place = (index: number, address = shipping) => mutation('post', '/api/v1/orders', users[index]!)
+      .set('Idempotency-Key', keys[index]!).send({ quoteId: quotes[index]!.body.data.id, shipping: address });
+    const results = await Promise.all([place(0), place(1)]);
+    expect(results.map(result => result.status).sort()).toEqual([201, 409]);
+    const winner = results.findIndex(result => result.status === 201);
+    const id = results[winner]!.body.data.id;
+    expect((await place(winner).expect(200)).body.data.id).toBe(id);
+    await place(winner, { ...shipping, city: 'Ipoh' }).expect(409);
+    await request(app).get('/api/v1/orders/' + id).set('Cookie', users[1 - winner]!.cookie).expect(404);
+    await database.product.update({ where: { id: productId }, data: { priceMinor: 9999 } });
+    const order = await request(app).get('/api/v1/orders/' + id).set('Cookie', users[winner]!.cookie).expect(200);
+    expect(order.body.data.totalMinor).toBe(1101);
+    expect((await database.product.findUniqueOrThrow({ where: { id: productId } })).stockQuantity).toBe(0);
   });
 });

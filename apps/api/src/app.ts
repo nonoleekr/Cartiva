@@ -10,6 +10,7 @@ import { toNodeHandler } from 'better-auth/node';
 import type { AuthSettings } from './modules/auth/auth.config.js';
 import { createAuth } from './modules/auth/auth.js';
 import { identityRoutes } from './modules/auth/auth.routes.js';
+import { checkoutRoutes } from './modules/checkout/checkout.routes.js';
 import { cartRoutes } from './modules/cart/cart.routes.js';
 
 type AppOptions = { webDirectory?: string; database?: Database; authSettings?: AuthSettings };
@@ -48,6 +49,7 @@ export function createApp({ webDirectory, database, authSettings }: AppOptions =
     }, toNodeHandler(auth));
     app.use('/api/v1', identityRoutes(auth, database, authSettings));
     app.use('/api/v1/cart', cartRoutes(auth, database, authSettings));
+    app.use('/api/v1', checkoutRoutes(auth, database, authSettings));
   }
 
   app.get('/api/v1/health/live', (_request, response) => {
