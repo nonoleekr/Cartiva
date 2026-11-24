@@ -3,7 +3,7 @@ services:
     name: cartiva-demo
     runtime: node
     plan: free
-    autoDeployTrigger: off
+    autoDeployTrigger: "off"
     healthCheckPath: /api/v1/health/ready
     buildCommand: npm install --global npm@11.17.0 && npm ci --include=dev && npm run build && npm run db:migrate
     startCommand: npm start
