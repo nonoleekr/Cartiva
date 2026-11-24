@@ -129,7 +129,7 @@ def main() -> None:
 
 ## Resume here
 
-M1–M6 are implemented and locally verified. M6 is ready for review.
+M1–M6 are implemented and locally verified. M7 local release preparation is verified. Hosted acceptance is pending.
 Catalog/product/cart UI uses the real API and an account-owned PostgreSQL cart.
 
 - [Project memory / handoff](reference/docs/PROJECT_MEMORY.md)
@@ -168,6 +168,10 @@ remain unverified. No default admin account, real payment processing or deployme
 
 - [M6: administration and fulfillment](reference/docs/MILESTONE_6.md)
 
+- [M7: release verification and deployment handoff](reference/docs/MILESTONE_7.md)
+
+- [Hosted release runbook](reference/docs/RELEASE_RUNBOOK.md)
+
 ## Keep the notes current
 
 Update owning repository documents and the compact memory/log, then run
@@ -194,7 +198,7 @@ These show synthetic local verification, not a hosted release.
 
 ## Pending decisions / next actions
 
-- Review M6 before starting M7 release verification.
+- Verify the M7 release candidate and confirm hosting before publication.
 - Confirm actual hosting budget, public signup policy, TLS/proxy behavior and recovery
   readiness before public deployment; never confuse demo safeguards with production readiness.
 """

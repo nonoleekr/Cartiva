@@ -91,3 +91,7 @@ This update supersedes the M4 boundary above. M5 was authorized and implemented.
 ## M6 handoff
 
 M6 supersedes the earlier milestone boundary. Administration and fulfillment are implemented and locally verified, with backend checkpoint ff60b22. The admin landing page is /admin and Account links to it for administrators. Existing PLACED orders can progress to PROCESSING, SHIPPED and DELIVERED. Review [M6](MILESTONE_6.md) before starting M7 release work.
+
+## M7 handoff
+
+M7 local release preparation passed 71 automated tests, the compiled-server smoke and a disposable database restore rehearsal. The workflow now runs the release smoke after migration and integration tests. See [M7](MILESTONE_7.md) and the [release runbook](RELEASE_RUNBOOK.md). Hosted acceptance and remote CI require a confirmed host, budget and publication scope.

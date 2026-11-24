@@ -24,6 +24,7 @@
     "db:generate": "npm run db:generate -w @cartiva/api",
     "db:migrate": "npm run db:migrate -w @cartiva/api",
     "db:seed": "npm run db:seed -w @cartiva/api",
+    "test:release": "npm run test:release -w @cartiva/api",
     "test:integration": "npm run test:integration -w @cartiva/api",
     "prepare": "npm run db:generate",
     "db:inspect": "npm run db:inspect -w @cartiva/api",

@@ -119,3 +119,5 @@ Health: `GET /api/v1/health/live` proves the process responds. `GET /api/v1/heal
 For local admin learning, register an account then run `npm run auth:grant-admin -- your-email@example.invalid --confirm`. This only accepts local Cartiva development/test databases, grants the role to an existing user and revokes that user's sessions. Sign in again. No admin credentials are committed or pre-seeded.
 
 Review [M6 learning and verification](docs/MILESTONE_6.md) before M7 release verification.
+
+The M7 release candidate passed local build and database checks, including a checkout and fulfillment smoke test against the compiled application. See the [M7 verification notes](docs/MILESTONE_7.md) and [hosted release runbook](docs/RELEASE_RUNBOOK.md).

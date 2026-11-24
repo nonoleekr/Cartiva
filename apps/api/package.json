@@ -12,6 +12,7 @@
     "db:generate": "prisma generate --config prisma7.config.ts",
     "db:migrate": "node --env-file-if-exists=.env ../../node_modules/prisma/build/index.js migrate deploy --config prisma7.config.ts",
     "db:seed": "tsx --env-file-if-exists=.env scripts/seed.ts",
+    "test:release": "tsx scripts/test-release.ts",
     "test:integration": "tsx --env-file-if-exists=.env scripts/test-integration.ts",
     "db:inspect": "tsx --env-file-if-exists=.env scripts/inspect-catalog.ts",
     "auth:setup": "tsx scripts/setup-auth.ts",
