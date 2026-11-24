@@ -1,0 +1,23 @@
+services:
+  - type: web
+    name: cartiva-demo
+    runtime: node
+    plan: free
+    autoDeployTrigger: "off"
+    healthCheckPath: /api/v1/health/ready
+    buildCommand: npm install --global npm@11.17.0 && npm ci --include=dev && npm run build && npm run db:migrate
+    startCommand: npm start
+    envVars:
+      - key: NODE_VERSION
+        value: 24.11.1
+      - key: NODE_ENV
+        value: production
+      - key: APP_ORIGIN
+        fromService:
+          type: web
+          name: cartiva-demo
+          envVarKey: RENDER_EXTERNAL_URL
+      - key: DATABASE_URL
+        sync: false
+      - key: BETTER_AUTH_SECRET
+        generateValue: true

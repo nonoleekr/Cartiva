@@ -1,0 +1,173 @@
+
+generator client {
+  provider = "prisma-client"
+  output = "../src/generated/prisma"
+  moduleFormat = "esm"
+  importFileExtension = "js"
+}
+
+datasource db {
+  provider = "postgresql"
+}
+
+model User {
+  id            String    @id
+  name          String
+  email         String
+  emailVerified Boolean   @default(false)
+  image         String?
+  createdAt     DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime  @updatedAt @db.Timestamptz(3)
+  role          String    @default("CUSTOMER")
+  sessions      Session[]
+  accounts      Account[]
+  cart          Cart?
+  savedShipping Json?
+  checkoutQuotes CheckoutQuote[]
+  orders CustomerOrder[]
+
+  @@unique([email])
+  @@map("user")
+}
+
+model Session {
+  id        String   @id
+  expiresAt DateTime @db.Timestamptz(3)
+  token     String
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+  ipAddress String?
+  userAgent String?
+  userId    String
+  user      User     @relation(fields: [userId], references: [id], onDelete: Cascade)
+
+  @@unique([token])
+  @@index([userId])
+  @@map("session")
+}
+
+model Account {
+  id                    String    @id
+  accountId             String
+  providerId            String
+  userId                String
+  user                  User      @relation(fields: [userId], references: [id], onDelete: Cascade)
+  accessToken           String?
+  refreshToken          String?
+  idToken               String?
+  accessTokenExpiresAt  DateTime? @db.Timestamptz(3)
+  refreshTokenExpiresAt DateTime? @db.Timestamptz(3)
+  scope                 String?
+  password              String?
+  createdAt             DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt             DateTime  @updatedAt @db.Timestamptz(3)
+
+  @@index([userId])
+  @@map("account")
+}
+
+model Verification {
+  id         String   @id
+  identifier String
+  value      String
+  expiresAt  DateTime @db.Timestamptz(3)
+  createdAt  DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt  DateTime @updatedAt @db.Timestamptz(3)
+
+  @@index([identifier])
+  @@map("verification")
+}
+
+enum ProductStatus {
+  DRAFT
+  ACTIVE
+  ARCHIVED
+}
+
+model Category {
+  id        String    @id @default(uuid()) @db.Uuid
+  name      String    @db.VarChar(100)
+  slug      String    @unique @db.VarChar(120)
+  createdAt DateTime  @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime  @updatedAt @db.Timestamptz(3)
+  products  Product[]
+
+  @@map("category")
+}
+
+model Product {
+  id            String        @id @default(uuid()) @db.Uuid
+  categoryId    String        @db.Uuid
+  category      Category      @relation(fields: [categoryId], references: [id], onDelete: Restrict)
+  name          String        @db.VarChar(160)
+  slug          String        @unique @db.VarChar(180)
+  description   String        @db.VarChar(5000)
+  imagePath     String        @db.VarChar(300)
+  priceMinor    Int
+  stockQuantity Int           @default(0)
+  status        ProductStatus @default(DRAFT)
+  version       Int           @default(0)
+  createdAt     DateTime      @default(now()) @db.Timestamptz(3)
+  updatedAt     DateTime      @updatedAt @db.Timestamptz(3)
+  cartItems     CartItem[]
+
+  @@index([status, categoryId, createdAt, id])
+  @@map("product")
+}
+
+model Cart {
+  id        String     @id @default(uuid()) @db.Uuid
+  userId    String     @unique
+  user      User       @relation(fields: [userId], references: [id], onDelete: Cascade)
+  revision  Int        @default(0)
+  createdAt DateTime   @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime   @updatedAt @db.Timestamptz(3)
+  items     CartItem[]
+
+  @@map("cart")
+}
+
+model CartItem {
+  id        String   @id @default(uuid()) @db.Uuid
+  cartId    String   @db.Uuid
+  cart      Cart     @relation(fields: [cartId], references: [id], onDelete: Cascade)
+  productId String   @db.Uuid
+  product   Product  @relation(fields: [productId], references: [id], onDelete: Restrict)
+  quantity  Int
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+  updatedAt DateTime @updatedAt @db.Timestamptz(3)
+
+  @@unique([cartId, productId])
+  @@map("cart_item")
+}
+
+model CheckoutQuote {
+  id String @id @default(uuid()) @db.Uuid
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Cascade)
+  cartId String @db.Uuid
+  revision Int
+  items Json
+  expiresAt DateTime @db.Timestamptz(3)
+
+  @@index([userId, expiresAt], map: "checkout_quote_user_expiry_idx")
+  @@map("checkout_quote")
+}
+
+model CustomerOrder {
+  id String @id @default(uuid()) @db.Uuid
+  userId String
+  user User @relation(fields: [userId], references: [id], onDelete: Restrict)
+  retryKey String @db.Uuid
+  requestHash String
+  items Json
+  shipping Json
+  totalMinor Int
+  status String @default("PLACED")
+  version Int @default(0)
+  createdAt DateTime @default(now()) @db.Timestamptz(3)
+
+  @@unique([userId, retryKey])
+  @@index([userId, createdAt, id], map: "customer_order_owner_history_idx")
+  @@map("customer_order")
+}
