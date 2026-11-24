@@ -175,6 +175,8 @@ remain unverified. No default admin account, real payment processing or deployme
 
 - [Admin portal polish](reference/docs/ADMIN_PORTAL_UX.md)
 
+- [User testing improvements](reference/docs/USER_TESTING_IMPROVEMENTS.md)
+
 ## Keep the notes current
 
 Update owning repository documents and the compact memory/log, then run

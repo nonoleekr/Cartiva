@@ -1,3 +1,4 @@
+import { ProductStatusControl } from './ProductStatusControl';
 import { Pagination } from '../../components/Pagination';
 import { useCallback, useState } from 'react';
 import type { FormEvent, ReactNode } from 'react';
@@ -178,6 +179,7 @@ function ProductEditor({ item, categories, refresh }: { item?: Product; categori
   const { busy, save, feedback } = useWrite(refresh);
   const path = item ? 'products/' + item.id : 'products';
   const archived = item?.status === 'ARCHIVED';
+  const [status, setStatus] = useState<'DRAFT' | 'ACTIVE'>(item?.status === 'ACTIVE' ? 'ACTIVE' : 'DRAFT');
   const [image, setImage] = useState(item?.imagePath ?? '');
   const imagePath = assetPath(image);
   const invalidImage = Boolean(image.trim()) && !imagePath;
@@ -189,7 +191,6 @@ function ProductEditor({ item, categories, refresh }: { item?: Product; categori
       description: String(form.get('description')), imagePath: imagePath || fallbackImage, priceMinor: Number(form.get('priceMinor'))
     };
     if (item) {
-      const status = String(form.get('status'));
       await save(path, 'PATCH', { ...data, expectedVersion: item.version, ...(status === item.status ? {} : { status }) });
     } else {
       const result = await save(path, 'POST', { ...data, initialStock: Number(form.get('initialStock')) });
@@ -215,10 +216,10 @@ function ProductEditor({ item, categories, refresh }: { item?: Product; categori
         <label className="grid gap-1">Description<textarea className={input} name="description" required maxLength={5000} defaultValue={item?.description} /></label>
         </div><div className="grid content-start gap-3"><h3 className="font-semibold">Pricing, inventory and image</h3>
         <Field label="Price (sen)" name="priceMinor" type="number" min={1} max={100000000} value={item?.priceMinor ?? ''} />
-        {item ? <label className="grid gap-1">Status<select name="status" aria-label="Status" className={input} defaultValue={item.status}>
-          <option value="DRAFT">Draft</option><option value="ACTIVE">Active</option>
-          {archived && <option value="ARCHIVED">Archived</option>}
-        </select></label> : <Field label="Initial stock" name="initialStock" type="number" min={0} value={0} />}
+        {item ? archived ? <p><Badge status="ARCHIVED" /> Hidden from the storefront.</p> :
+          <ProductStatusControl saved={item.status === 'ACTIVE' ? 'ACTIVE' : 'DRAFT'} selected={status} onChange={setStatus} />
+          : <><p><Badge status="DRAFT" /> Hidden from customers until published after creation.</p>
+            <Field label="Initial stock" name="initialStock" type="number" min={0} value={0} /></>}
         <label className="grid gap-1">Image path or URL<input className={input} name="imagePath" value={image}
           maxLength={300} aria-invalid={invalidImage || undefined} aria-describedby="image-help"
           onChange={event => setImage(event.target.value)} /></label>

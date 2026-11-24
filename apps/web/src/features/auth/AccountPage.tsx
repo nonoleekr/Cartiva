@@ -24,7 +24,6 @@ export function AccountPage() {
     <dl className="mt-8 grid gap-4 border-y border-stone-200 py-6"><div><dt className="text-sm text-stone-500">Email</dt><dd className="mt-1 break-words">{user.email}</dd></div><div><dt className="text-sm text-stone-500">Role</dt><dd className="mt-1">{user.role === 'ADMIN' ? 'Administrator' : 'Customer'}</dd></div></dl>
     <p className="mt-6 leading-7 text-stone-600">Email verification and password recovery are not available in this demo. Your cart is saved to your account. Checkout and orders are simulated.</p>
     <div className="mt-4 flex flex-wrap gap-4">
-      <Link className="underline" to="/orders">Order history</Link>
       {user.role === 'ADMIN' && <Link className="underline" to="/admin">Store administration</Link>}
     </div>
     {error && <p role="alert" className="mt-4 text-red-800">{error}</p>}

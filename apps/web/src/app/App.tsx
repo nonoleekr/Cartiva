@@ -22,9 +22,10 @@ export function App() {
       <nav aria-label="Portal links"><Link to="/">Storefront ↗</Link>{user && <Link to="/account">Account</Link>}</nav>
     </header> : <header className="flex items-center justify-between gap-6 border-b border-stone-200 py-5">
       <Link to="/" className="text-3xl font-bold tracking-tight text-emerald-950">Cartiva</Link>
-      <nav aria-label="Main navigation" className="flex gap-5 text-sm font-medium">
+      <nav aria-label="Main navigation" className="flex flex-wrap justify-end gap-x-5 gap-y-2 text-sm font-medium">
         <NavLink to="/" end>Shop</NavLink>
         <NavLink to="/cart">Cart</NavLink>
+        {user && <NavLink to="/orders">My Orders</NavLink>}
         {status !== 'loading' && <NavLink to={user ? '/account' : '/sign-in'}>{user ? 'Account' : 'Sign in'}</NavLink>}
       </nav>
     </header>}
