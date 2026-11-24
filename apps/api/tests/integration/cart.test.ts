@@ -225,6 +225,12 @@ describe('administrator catalog and fulfillment', () => {
     try {
       await mutation('delete', root + '/categories/' + categoryId, admin).send({}).expect(409);
       const product = await database.product.findUniqueOrThrow({ where: { id: productId } });
+      const listed = await request(app).get(root + '/products').set('Cookie', admin.cookie)
+        .query({ q: product.slug, category: categoryId, status: 'ACTIVE', stock: 'healthy', sort: 'price' }).expect(200);
+      expect(listed.body.data.items).toEqual([expect.objectContaining({ id: productId, category: expect.objectContaining({ name: expect.any(String) }) })]);
+      const noStock = await request(app).get(root + '/products').set('Cookie', admin.cookie)
+        .query({ q: product.slug, stock: 'out' }).expect(200);
+      expect(noStock.body.data.items).toEqual([]);
       const inventory = root + '/products/' + productId + '/inventory-adjustments';
       await request(app).post(inventory).set('Cookie', admin.cookie).send({ delta: 1, expectedVersion: product.version }).expect(403);
       const writes = await Promise.all([1, 2].map(delta => mutation('post', inventory, admin).send({ delta, expectedVersion: product.version })));
@@ -240,6 +246,10 @@ describe('administrator catalog and fulfillment', () => {
       await mutation('patch', statusPath, admin).send({ status: 'PROCESSING', expectedVersion: 0 }).expect(200);
       await mutation('patch', statusPath, admin).send({ status: 'SHIPPED', expectedVersion: 0 }).expect(409);
       await mutation('patch', statusPath, admin).send({ status: 'SHIPPED', expectedVersion: 1 }).expect(200);
+      const filtered = await request(app).get(root + '/orders').set('Cookie', admin.cookie)
+        .query({ q: 'fictional customer', status: 'SHIPPED', sort: 'total' }).expect(200);
+      expect(filtered.body.data.items).toEqual([expect.objectContaining({ id: orderId })]);
+      expect(filtered.body.data.counts.SHIPPED).toBe(1);
       const latest = await database.product.findUniqueOrThrow({ where: { id: productId } });
       await mutation('delete', root + '/products/' + productId, admin).send({ expectedVersion: latest.version }).expect(204);
       const detail = await request(app).get('/api/v1/orders/' + orderId).set('Cookie', customer.cookie).expect(200);

@@ -14,8 +14,8 @@ const category = z.strictObject({ name: z.string().trim().min(1).max(100), slug:
 const product = z.strictObject({
   name: z.string().trim().min(1).max(160), slug: slug.max(180), categoryId: uuid,
   description: z.string().trim().min(1).max(5000),
-  imagePath: z.string().max(300).regex(/^\/assets\/[a-zA-Z0-9_-]+\.(?:png|jpg|jpeg|webp|svg)$/),
-  priceMinor: integer
+  imagePath: z.string().max(300).regex(/^\/assets\/[a-zA-Z0-9/_-]+\.(?:png|jpg|webp|svg)$/),
+  priceMinor: z.number().int().min(1).max(100000000)
 });
 const stages = ['PLACED', 'PROCESSING', 'SHIPPED', 'DELIVERED'] as const;
 const pageSchema = z.string().regex(/^[1-9][0-9]{0,4}$/).transform(Number);
@@ -61,8 +61,21 @@ export function adminRoutes(auth: Auth, database: Database, settings: AuthSettin
 
   router.get('/products', async (req, res) => {
     const page = parse(pageSchema, req.query.page ?? '1');
+    const q = parse(z.string().trim().max(120), req.query.q ?? '');
+    const status = parse(z.enum(['', 'DRAFT', 'ACTIVE', 'ARCHIVED']), req.query.status ?? '');
+    const categoryId = parse(z.union([uuid, z.literal('')]), req.query.category ?? '');
+    const stock = parse(z.enum(['', 'out', 'low', 'healthy']), req.query.stock ?? '');
+    const sort = parse(z.enum(['name', 'price', 'stock', 'newest']), req.query.sort ?? 'name');
+    const orderBy = sort === 'price' ? { priceMinor: 'asc' as const } : sort === 'stock'
+      ? { stockQuantity: 'asc' as const } : sort === 'newest' ? { createdAt: 'desc' as const } : { name: 'asc' as const };
     const rows = await database.product.findMany({
-      orderBy: [{ name: 'asc' }, { id: 'asc' }], skip: (page - 1) * 20, take: 21
+      where: {
+        ...(q ? { OR: [{ name: { contains: q, mode: 'insensitive' } }, { slug: { contains: q, mode: 'insensitive' } }] } : {}),
+        ...(status ? { status } : {}), ...(categoryId ? { categoryId } : {}),
+        ...(stock ? { stockQuantity: stock === 'out' ? 0 : stock === 'low' ? { gte: 1, lte: 5 } : { gt: 5 } } : {})
+      },
+      include: { category: { select: { name: true } } },
+      orderBy: [orderBy, { id: 'asc' }], skip: (page - 1) * 20, take: 21
     });
     res.json(pageResult(rows, page));
   });
@@ -154,11 +167,22 @@ export function adminRoutes(auth: Auth, database: Database, settings: AuthSettin
   router.get('/orders', async (req, res) => {
     const page = parse(pageSchema, req.query.page ?? '1');
     const status = req.query.status === undefined ? undefined : parse(z.enum(stages), req.query.status);
-    const rows = await database.customerOrder.findMany({
-      where: status ? { status } : {}, select: orderSummary,
-      orderBy: [{ createdAt: 'desc' }, { id: 'desc' }], skip: (page - 1) * 20, take: 21
-    });
-    res.json(pageResult(rows, page));
+    const q = parse(z.string().trim().max(120), req.query.q ?? '');
+    const sort = parse(z.enum(['newest', 'oldest', 'total']), req.query.sort ?? 'newest');
+    const orderBy = sort === 'total' ? { totalMinor: 'desc' as const } : { createdAt: sort === 'oldest' ? 'asc' as const : 'desc' as const };
+    const id = uuid.safeParse(q);
+    const [rows, counts] = await database.$transaction([
+      database.customerOrder.findMany({
+        where: { ...(status ? { status } : {}), ...(q ? { OR: [
+          ...(id.success ? [{ id: id.data }] : []),
+          { shipping: { path: ['recipientName'], string_contains: q, mode: 'insensitive' as const } }
+        ] } : {}) }, select: orderSummary,
+        orderBy: [orderBy, { id: 'desc' }], skip: (page - 1) * 20, take: 21
+      }),
+      database.customerOrder.groupBy({ by: ['status'], _count: { _all: true } })
+    ], { isolationLevel: 'RepeatableRead' });
+    res.json({ data: { ...pageResult(rows, page).data,
+      counts: Object.fromEntries(stages.map(stage => [stage, counts.find(row => row.status === stage)?._count._all ?? 0])) } });
   });
   router.get('/orders/:id', async (req, res) => {
     const row = await database.customerOrder.findUnique({

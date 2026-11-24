@@ -85,3 +85,7 @@ Maintain an OpenAPI document as routes are implemented; contract tests must veri
 ## M5 implemented response details
 
 POST checkout quotes accepts an empty JSON object and returns an ID, expiry, reviewed lines and totalMinor. POST orders takes the documented shipping object and retry key and returns the order ID. The same normalized request replays with 200. A changed request using an existing key, changed cart or price, expiry or unavailable stock returns 409. GET orders accepts page 1–99999, returns 20 summaries at most and hasNext. GET order detail returns stored lines and shipping. All routes require a session and both writes require CSRF.
+
+## Admin portal list queries
+
+Product list accepts q (name or slug), status, category ID, stock (out, low or healthy), and sort (name, price, stock or newest). Low stock means one to five units. Rows include the category name. Order list accepts q (full order ID or recipient name), status and sort (newest, oldest or total), and returns store-wide counts by status alongside the filtered page. Counts and rows share a database snapshot. Both lists retain the existing page and hasNext contract. Product price validation mirrors the existing PostgreSQL bounds of 1 to 100,000,000 sen.
