@@ -200,3 +200,53 @@ describe('simulated checkout on PostgreSQL', () => {
   });
 
 });
+
+describe('administrator catalog and fulfillment', () => {
+  const root = '/api/v1/admin';
+  it('requires an administrator for every read and mutation', async () => {
+    const routes = [
+      ['get', '/products'], ['get', '/products/' + productId], ['post', '/products'],
+      ['patch', '/products/' + productId], ['delete', '/products/' + productId],
+      ['post', '/products/' + productId + '/inventory-adjustments'],
+      ['get', '/categories'], ['post', '/categories'], ['patch', '/categories/' + categoryId],
+      ['delete', '/categories/' + categoryId], ['get', '/orders'], ['get', '/orders/' + productId],
+      ['patch', '/orders/' + productId + '/status']
+    ] as const;
+    for (const [method, pathname] of routes) {
+      await request(app)[method](root + pathname).expect(401);
+      await request(app)[method](root + pathname).set('Cookie', users[0]!.cookie).expect(403);
+    }
+  });
+
+  it('rejects stale inventory, protects used categories and exposes fulfillment to the customer', async () => {
+    const admin = users[0]!;
+    const customer = users[1]!;
+    await database.user.update({ where: { id: admin.id }, data: { role: 'ADMIN' } });
+    try {
+      await mutation('delete', root + '/categories/' + categoryId, admin).send({}).expect(409);
+      const product = await database.product.findUniqueOrThrow({ where: { id: productId } });
+      const inventory = root + '/products/' + productId + '/inventory-adjustments';
+      await request(app).post(inventory).set('Cookie', admin.cookie).send({ delta: 1, expectedVersion: product.version }).expect(403);
+      const writes = await Promise.all([1, 2].map(delta => mutation('post', inventory, admin).send({ delta, expectedVersion: product.version })));
+      expect(writes.map(result => result.status).sort()).toEqual([200, 409]);
+
+      await mutation('post', '/api/v1/cart/items', customer).send({ productId, quantity: 1 }).expect(200);
+      const quote = await mutation('post', '/api/v1/checkout/quotes', customer).send({}).expect(201);
+      const placed = await mutation('post', '/api/v1/orders', customer).set('Idempotency-Key', randomUUID())
+        .send({ quoteId: quote.body.data.id, shipping: { recipientName: 'Fictional Customer', addressLine1: 'Demo Street', city: 'Ipoh', postalCode: '30000', country: 'MY' } }).expect(201);
+      const orderId = placed.body.data.id as string;
+      const statusPath = root + '/orders/' + orderId + '/status';
+      await mutation('patch', statusPath, admin).send({ status: 'SHIPPED', expectedVersion: 0 }).expect(409);
+      await mutation('patch', statusPath, admin).send({ status: 'PROCESSING', expectedVersion: 0 }).expect(200);
+      await mutation('patch', statusPath, admin).send({ status: 'SHIPPED', expectedVersion: 0 }).expect(409);
+      await mutation('patch', statusPath, admin).send({ status: 'SHIPPED', expectedVersion: 1 }).expect(200);
+      const latest = await database.product.findUniqueOrThrow({ where: { id: productId } });
+      await mutation('delete', root + '/products/' + productId, admin).send({ expectedVersion: latest.version }).expect(204);
+      const detail = await request(app).get('/api/v1/orders/' + orderId).set('Cookie', customer.cookie).expect(200);
+      expect(detail.body.data.status).toBe('SHIPPED');
+      expect(detail.body.data.totalMinor).toBe(1101);
+    } finally {
+      await database.user.update({ where: { id: admin.id }, data: { role: 'CUSTOMER' } });
+    }
+  });
+});

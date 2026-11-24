@@ -163,6 +163,7 @@ model CustomerOrder {
   shipping Json
   totalMinor Int
   status String @default("PLACED")
+  version Int @default(0)
   createdAt DateTime @default(now()) @db.Timestamptz(3)
 
   @@unique([userId, retryKey])

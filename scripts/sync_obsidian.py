@@ -129,7 +129,7 @@ def main() -> None:
 
 ## Resume here
 
-M1–M4 are implemented and locally verified. M5 checkout and customer orders are implemented and ready for review.
+M1–M4 are implemented and locally verified. M5 checkout and customer orders are implemented. M6 administration is underway.
 Catalog/product/cart UI uses the real API and an account-owned PostgreSQL cart.
 
 - [Project memory / handoff](reference/docs/PROJECT_MEMORY.md)
@@ -165,6 +165,8 @@ These tests were not rerun merely to copy documentation. CI/hosted TLS/other bro
 remain unverified. No default admin account, real payment processing or deployment.
 
 - [M5: simulated checkout and orders](reference/docs/MILESTONE_5.md)
+
+- [M6: administration and fulfillment](reference/docs/MILESTONE_6.md)
 
 ## Keep the notes current
 
