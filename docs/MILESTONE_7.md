@@ -38,3 +38,7 @@ CI checks each proposed code change. Deployment promotes an approved build with 
 ## First hosted verification
 
 The public Render service is https://cartiva-demo.onrender.com/. HTTPS checks returned 200 for the storefront, admin sign-in deep link, database readiness, and product API. The product API returned zero records. An anonymous admin API request returned 401 and an unknown API route returned JSON 404. Hosted sign-in, admin provisioning, catalog setup, checkout and fulfillment still need verification with a dedicated demo account and fictional products.
+
+## Hosted user acceptance
+
+The user reported completing the hosted walkthrough for administrator setup, sample catalog, simulated checkout and fulfillment. They reported no issues and a good overall user experience. This is user-reported browser acceptance, alongside the independently verified public HTTPS checks above.

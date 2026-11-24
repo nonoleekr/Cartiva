@@ -130,7 +130,7 @@ def main() -> None:
 
 ## Resume here
 
-M1–M6 are implemented and locally verified. M7 local release preparation is verified. Hosted acceptance is pending.
+M1–M6 are implemented and locally verified. M7 local release preparation is verified. The user completed hosted acceptance and reported no issues.
 Catalog/product/cart UI uses the real API and an account-owned PostgreSQL cart.
 
 - [Project memory / handoff](reference/docs/PROJECT_MEMORY.md)
