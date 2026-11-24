@@ -123,11 +123,16 @@ export function checkoutRoutes(auth: Auth, database: Database, settings: AuthSet
   router.get('/orders', session, async (request, response) => {
     const userId = response.locals.identity.user.id as string;
     const page = parse(z.string().regex(/^[1-9]\d{0,4}$/).transform(Number), request.query.page ?? '1');
+    const id = parse(z.union([z.uuid(), z.literal('')]), request.query.q ?? '');
+    const status = parse(z.enum(['', 'PLACED', 'PROCESSING', 'SHIPPED', 'DELIVERED']), request.query.status ?? '');
     const items = await database.customerOrder.findMany({
-      where: { userId }, select: summary, orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
+      where: { userId, ...(id ? { id } : {}), ...(status ? { status } : {}) },
+      select: { ...summary, items: true }, orderBy: [{ createdAt: 'desc' }, { id: 'desc' }],
       skip: (page - 1) * 20, take: 21
     });
-    response.json({ data: { items: items.slice(0, 20), page, hasNext: items.length > 20 } });
+    response.json({ data: { items: items.slice(0, 20).map(({ items: lines, ...order }) => ({
+      ...order, itemCount: (lines as Line[]).reduce((sum, line) => sum + line.quantity, 0)
+    })), page, hasNext: items.length > 20 } });
   });
 
   router.get('/orders/:id', session, async (request, response) => {

@@ -168,6 +168,13 @@ describe('simulated checkout on PostgreSQL', () => {
     await database.product.update({ where: { id: productId }, data: { priceMinor: 9999 } });
     const order = await request(app).get('/api/v1/orders/' + id).set('Cookie', users[winner]!.cookie).expect(200);
     expect(order.body.data.totalMinor).toBe(1101);
+    const list = await request(app).get('/api/v1/orders').set('Cookie', users[winner]!.cookie)
+      .query({ q: id, status: 'PLACED' }).expect(200);
+    expect(list.body.data.items).toEqual([expect.objectContaining({ id, itemCount: 1 })]);
+    const other = await request(app).get('/api/v1/orders').set('Cookie', users[1 - winner]!.cookie)
+      .query({ q: id }).expect(200);
+    expect(other.body.data.items).toEqual([]);
+
     expect((await database.product.findUniqueOrThrow({ where: { id: productId } })).stockQuantity).toBe(0);
   });
   it('rejects expired and repriced quotes and creates one order for parallel requests from the same cart', async () => {
