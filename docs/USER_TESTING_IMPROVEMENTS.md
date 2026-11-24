@@ -17,3 +17,5 @@ Locally, run npm run db:migrate before starting the updated API. The migration a
 Chromium verified keyboard publish and unpublish, saved status after refresh, My Orders navigation and filtering, a simulated checkout, prefill after sign-out/sign-in and refresh, an unchecked save option on revisit, and a blank address for a separate account. The order table fit the page at 375, 768 and 1440 px. Synthetic accounts and products were removed after verification.
 
 Final local gates passed lint, type checks, both builds, 23 HTTP/configuration tests, 49 PostgreSQL integration tests and the production-build smoke. The integration suite upgraded the existing test schema and confirmed opt-in, opt-out, account isolation, replay after a newer save and unchanged historical shipping.
+
+The status description now emphasizes Unpublished and the green publish action, with a green Active indicator and a contrast-aware dark-mode description. The publication workflow and wording are unchanged.

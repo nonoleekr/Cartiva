@@ -14,14 +14,24 @@ export function ProductStatusControl({ saved, selected, onChange }: {
         <span className={status === 'DRAFT'
           ? 'block rounded border border-blue-700 bg-white px-3 py-2 text-center font-semibold text-blue-800 transition hover:bg-blue-50 peer-checked:bg-blue-700 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-blue-700 peer-focus-visible:ring-offset-2'
           : 'block rounded border border-emerald-700 bg-white px-3 py-2 text-center font-semibold text-emerald-800 transition hover:bg-emerald-50 peer-checked:bg-emerald-700 peer-checked:text-white peer-focus-visible:ring-2 peer-focus-visible:ring-emerald-700 peer-focus-visible:ring-offset-2'}>
-          {status === 'DRAFT' ? 'Draft' : 'Active'}
+          {status === 'DRAFT' ? 'Draft' : <>
+            <span aria-hidden="true" className={selected === 'ACTIVE'
+              ? 'mr-2 inline-block size-2.5 rounded-full border border-emerald-100 bg-emerald-300 align-baseline'
+              : 'mr-2 inline-block size-2.5 rounded-full border-2 border-emerald-700 align-baseline'} />
+            Active
+          </>}
         </span>
       </label>)}
     </div>
-    <p id="product-visibility" aria-live="polite" className="text-sm text-slate-700">
+    <p id="product-visibility" aria-live="polite" className="text-sm text-slate-700 dark:rounded dark:bg-slate-900 dark:p-2 dark:text-slate-200">
       <span aria-hidden="true">{published ? '◉' : '⊘'} </span>
-      {published ? 'Published. Customers can view this product on the storefront.' : 'Unpublished. Customers cannot see this product on the storefront.'}
-      {' '}{pending ? (published ? 'Save to unpublish.' : 'Save to publish.') : !published ? 'Select Active and save to publish.' : ''}
+      {published ? 'Published. Customers can view this product on the storefront.' : <>
+        <span className="font-semibold">Unpublished</span>. Customers cannot see this product on the storefront.
+      </>}
+      {' '}{published ? (pending ? 'Save to unpublish.' : '') : <>
+        {pending ? 'Save to ' : 'Select Active and save to '}
+        <span className="font-semibold text-emerald-800 dark:text-emerald-300">publish</span>.
+      </>}
     </p>
   </fieldset>;
 }
