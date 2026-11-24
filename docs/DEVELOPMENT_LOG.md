@@ -77,3 +77,9 @@ This log summarizes work already evidenced in the project records. Dates below d
 - Backend checkpoint: 2fa57b5. Applied the checkout migration on local dev and test databases.
 - Connected shipping, quote review, placement and order history. Chromium at 375 px verified signup through placement and order history after reload.
 - Updated the learning guide and Obsidian hub before the customer-flow commit.
+
+## 24 November 2026 — M6 administration and fulfillment
+
+- Saved admin API and fulfillment migration as ff60b22 after the initial Obsidian sync.
+- Connected product and category forms, inventory adjustments, paginated order filtering and detail, and sequential fulfillment. Browser verified publish, purchase, shipping and archive.
+- The final checks passed with 23 HTTP/config tests and 48 PostgreSQL integration tests. Updated Obsidian before committing the customer and administration screens.

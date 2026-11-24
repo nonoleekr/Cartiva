@@ -1,8 +1,8 @@
 # REST API — proposed contract
 
-M4 implementation: the four customer-owned cart endpoints below are now implemented on top of M3 auth/CSRF. Catalog/detail/cart UI is connected; see M4 verification record. GET absent-cart id is null; DELETE item sends JSON `{}`. Cart lines expose current prices and availability AVAILABLE/INSUFFICIENT_STOCK/UNAVAILABLE; unavailable lines remain removable. M5 implements checkout quotes and owned order endpoints. Admin endpoints remain planned.
+M4 implementation: the four customer-owned cart endpoints below are now implemented on top of M3 auth/CSRF. Catalog/detail/cart UI is connected; see M4 verification record. GET absent-cart id is null; DELETE item sends JSON `{}`. Cart lines expose current prices and availability AVAILABLE/INSUFFICIENT_STOCK/UNAVAILABLE; unavailable lines remain removable. M5 implements checkout quotes and owned order endpoints. M6 implements the admin endpoints below.
 
-Implemented through M3: public catalog and health endpoints, the four auth routes below, `/api/v1/me`, `/api/v1/csrf`, and JSON API 404s. Cart endpoints are implemented in M4; checkout/orders are implemented in M5 and admin endpoints remain planned. Domain routes use `/api/v1`; auth uses Better Auth's `/api/auth` namespace. Cookies are same-origin sessions. Auth POSTs require exact Origin and bounded JSON; cart mutations additionally require the session-bound CSRF token. Never accept a customerId or role as authorization evidence from the client.
+Implemented through M3: public catalog and health endpoints, the four auth routes below, `/api/v1/me`, `/api/v1/csrf`, and JSON API 404s. Cart endpoints are implemented in M4; checkout/orders are implemented in M5 and admin endpoints are implemented in M6. Domain routes use `/api/v1`; auth uses Better Auth's `/api/auth` namespace. Cookies are same-origin sessions. Auth POSTs require exact Origin and bounded JSON; cart mutations additionally require the session-bound CSRF token. Never accept a customerId or role as authorization evidence from the client.
 
 ## Endpoints
 
@@ -61,7 +61,7 @@ Place order: `Idempotency-Key: <client-generated UUID>` header and `{ "quoteId":
 
 Validate trimmed recipient 1–100, address 1–200, city 1–100, country exactly MY for the proposed Malaysia demo, postalCode five digits. These are demo input constraints, not a comprehensive delivery-address verification service. No client price, total, payment success flag, role or userId accepted. The response has immutable order items, shipping, status, version, createdAt, totalMinor, currency MYR and paymentMode SIMULATED. Never imply a real payment occurred.
 
-Admin create product: name, slug, description, categoryId, trusted imagePath, priceMinor, initialStock. Initial stock integer ≥0; subsequent stock writes go through inventory adjustments. Status publication requires valid fields and positive stock. Product edits use expectedVersion and reject unknown/immutable fields. Status transitions only CONFIRMED → PROCESSING → SHIPPED → DELIVERED; no skips/backtracking. Reapplying current status with current version is a no-op.
+Admin create product: name, slug, description, categoryId, trusted imagePath, priceMinor, initialStock. Initial stock integer ≥0; subsequent stock writes go through inventory adjustments. Status publication requires valid fields and positive stock. Product edits use expectedVersion and reject unknown/immutable fields. Status transitions only PLACED → PROCESSING → SHIPPED → DELIVERED; no skips/backtracking. Reapplying current status with current version is a no-op.
 
 ## Errors and semantics
 

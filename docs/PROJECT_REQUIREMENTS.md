@@ -1,6 +1,6 @@
 # Cartiva requirements — proposed
 
-Requirements approved on 19 November 2026. M1 creates the foundation; M2 implements catalog API/data; M3 implements AUTH-1 and the authorization infrastructure for AUTH-2 (actual admin mutations remain M6). M4 implements CAT-1, CAT-2 and CART-1, with local verification recorded in its guide; M5 implements simulated checkout and customer orders. Admin features remain future work. This is a single-store educational portfolio project, not a marketplace or live merchant system.
+Requirements approved on 19 November 2026. M1 creates the foundation; M2 implements catalog API/data; M3 implements AUTH-1 and the authorization infrastructure for AUTH-2 (actual admin mutations remain M6). M4 implements CAT-1, CAT-2 and CART-1, with local verification recorded in its guide; M5 implements simulated checkout and customer orders. M6 implements catalog, inventory, category and fulfillment administration. This is a single-store educational portfolio project, not a marketplace or live merchant system.
 
 ## Users and outcomes
 

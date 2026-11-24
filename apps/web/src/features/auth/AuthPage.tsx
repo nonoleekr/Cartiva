@@ -8,7 +8,7 @@ export function AuthPage({ mode }: { mode: 'sign-in' | 'sign-up' }) {
   const { user, status, refresh } = useSession();
   const [params] = useSearchParams();
   const requested = params.get('returnTo') ?? '';
-  const returnTo = ['/cart', '/checkout', '/orders'].includes(requested) || /^\/orders\/[a-f0-9-]{36}$/i.test(requested) || /^\/products\/[a-z0-9-]+$/.test(requested) ? requested : '/account';
+  const returnTo = ['/cart', '/checkout', '/orders', '/admin'].includes(requested) || /^\/orders\/[a-f0-9-]{36}$/i.test(requested) || /^\/products\/[a-z0-9-]+$/.test(requested) ? requested : '/account';
   const [error, setError] = useState('');
   const [busy, setBusy] = useState(false);
   const signup = mode === 'sign-up';

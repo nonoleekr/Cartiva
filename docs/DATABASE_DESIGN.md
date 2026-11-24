@@ -41,7 +41,7 @@ Domain IDs are server-generated UUIDs. Timestamps are timestamptz in UTC, render
 | cart | id PK; userId unique FK; revision integer ≥ 0 default 0; timestamps |
 | cart_item | id PK; cartId FK CASCADE; productId FK RESTRICT; quantity integer 1–99; unique(cartId,productId); timestamps |
 | checkout_quote | id PK; cartId FK; userId FK; cartRevision; lineSnapshot JSONB; totalMinor; currency MYR; expiresAt; createdAt |
-| order | id PK; userId FK RESTRICT; status CONFIRMED/PROCESSING/SHIPPED/DELIVERED; paymentMode SIMULATED; currency MYR; subtotalMinor,totalMinor ≥ 0; shippingMinor,taxMinor = 0; recipientName,addressLine1,city,postalCode,country snapshots; version; timestamps |
+| order | id PK; userId FK RESTRICT; status PLACED/PROCESSING/SHIPPED/DELIVERED; paymentMode SIMULATED; currency MYR; subtotalMinor,totalMinor ≥ 0; shippingMinor,taxMinor = 0; recipientName,addressLine1,city,postalCode,country snapshots; version; timestamps |
 | order_item | id PK; orderId FK CASCADE; productId FK RESTRICT; productName; unitPriceMinor; quantity 1–99; lineTotalMinor; unique(orderId,productId) |
 | checkout_request | id PK; userId FK; key varchar(100); requestHash; orderId unique FK; createdAt; unique(userId,key) |
 
@@ -83,3 +83,7 @@ Reference: [Prisma transaction guidance for the proposed v7 compatibility line](
 ## M5 implemented checkout storage
 
 The migration creates checkout_quote and customer_order. Reviewed and purchased lines are JSON snapshots. Orders also store shipping, total in integer sen, status, and a unique customer/retry-key pair with a request hash. The key lives on the order, so replay checks and the order commit together. Checkout locks the cart and then products by ID before updating stock, creating the order and clearing cart lines in a single transaction.
+
+## M6 order and inventory concurrency
+
+The fulfillment migration adds customer_order.version with default zero and constrains status to PLACED, PROCESSING, SHIPPED and DELIVERED. Conditional updates compare the expected version and increment it on changes. Checkout already increments product versions when decrementing stock, so a concurrent admin adjustment cannot overwrite that change.

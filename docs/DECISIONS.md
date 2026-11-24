@@ -1,6 +1,6 @@
 # Decisions and approval record
 
-Updated 24 November 2026. User authorized M4 after the documentation transfer and required Obsidian updates and local commits after significant parts. M4 catalog/cart is complete and locally verified; ready for review. M5 was subsequently authorized, implemented and verified. M6 is pending review.
+Updated 24 November 2026. User authorized M4 after the documentation transfer and required Obsidian updates and local commits after significant parts. M4 catalog/cart is complete and locally verified; ready for review. M5 was subsequently authorized, implemented and verified. M6 was subsequently authorized and implemented. M7 is pending M6 review.
 
 Before M4, the user requested a complete documentation transfer into the added Obsidian vault and ongoing updates during development. The project hub is `D:/Ronald/Documents/obsidian_vault/Projects/Cartiva/Cartiva.md`; repository instructions and [sync workflow](OBSIDIAN_WORKFLOW.md) now require maintaining this reading/handoff layer. The later instruction to move onto the next step authorized M4 implementation and its local commit checkpoints; publishing remains unauthorized.
 

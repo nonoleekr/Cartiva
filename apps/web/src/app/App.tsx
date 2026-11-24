@@ -7,6 +7,7 @@ import { CatalogPage } from '../features/catalog/CatalogPage';
 import { ProductPage } from '../features/catalog/ProductPage';
 import { CartPage } from '../features/cart/CartPage';
 
+import { Admin } from '../features/admin/Admin';
 import { CheckoutScreen } from '../features/checkout/Checkout';
 
 export function App() {
@@ -25,6 +26,13 @@ export function App() {
       <Routes>
         <Route path="/" element={<CatalogPage />} />
         <Route path="/products/:slug" element={<ProductPage />} />
+        <Route path="/admin" element={<Admin mode="products" />} />
+        <Route path="/admin/products" element={<Admin mode="products" />} />
+        <Route path="/admin/products/new" element={<Admin mode="create" />} />
+        <Route path="/admin/products/:id" element={<Admin mode="product" />} />
+        <Route path="/admin/categories" element={<Admin mode="categories" />} />
+        <Route path="/admin/orders" element={<Admin mode="orders" />} />
+        <Route path="/admin/orders/:id" element={<Admin mode="order" />} />
         <Route path="/checkout" element={<CheckoutScreen mode="checkout" />} />
         <Route path="/orders" element={<CheckoutScreen mode="history" />} />
         <Route path="/orders/:id" element={<CheckoutScreen mode="order" />} />

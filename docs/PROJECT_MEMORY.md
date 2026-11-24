@@ -87,3 +87,7 @@ On 24 November the user also requested local Git commit checkpoints after each s
 ## M5 handoff
 
 This update supersedes the M4 boundary above. M5 was authorized and implemented. Start with [M5](MILESTONE_5.md) for checkout locks, quotes, retry behavior and verification. Backend checkpoint 2fa57b5. Local feature work stops at the M5 review boundary before M6.
+
+## M6 handoff
+
+M6 supersedes the earlier milestone boundary. Administration and fulfillment are implemented and locally verified, with backend checkpoint ff60b22. The admin landing page is /admin and Account links to it for administrators. Existing PLACED orders can progress to PROCESSING, SHIPPED and DELIVERED. Review [M6](MILESTONE_6.md) before starting M7 release work.

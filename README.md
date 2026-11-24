@@ -2,7 +2,7 @@
 
 A full-stack, single-store e-commerce learning project and future internship portfolio application.
 
-**Status: M5 simulated checkout and customer orders are implemented.** Browse, search/filter/sort/page, product details, signup/sign-in and account-owned cart are connected to PostgreSQL. Signed-in customers can review a quote, place a simulated order and read their order history. Admin screens and deployment remain future milestones.
+**Status: M6 store administration and fulfillment are implemented.** Browse, search/filter/sort/page, product details, signup/sign-in and account-owned cart are connected to PostgreSQL. Signed-in customers can review a quote, place a simulated order and read their order history. Administrators manage products, inventory, categories and fulfillment. Deployment is the next milestone.
 
 The reference repository at `D:/Coding_Projects/simple-ecommerce-cart-system` contains a Java Swing assignment and a later Spring Boot/React modernization. Both are reference material only. Cartiva will be built independently here; no legacy code, runtime data, or assets have been copied.
 
@@ -118,4 +118,4 @@ Health: `GET /api/v1/health/live` proves the process responds. `GET /api/v1/heal
 
 For local admin learning, register an account then run `npm run auth:grant-admin -- your-email@example.invalid --confirm`. This only accepts local Cartiva development/test databases, grants the role to an existing user and revokes that user's sessions. Sign in again. No admin credentials are committed or pre-seeded.
 
-Review [M5 learning and verification](docs/MILESTONE_5.md) before M6 administration.
+Review [M6 learning and verification](docs/MILESTONE_6.md) before M7 release verification.
