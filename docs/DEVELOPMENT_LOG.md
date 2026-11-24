@@ -89,3 +89,7 @@ This log summarizes work already evidenced in the project records. Dates below d
 - Passed lint, typechecks, builds, 23 HTTP/configuration tests, 48 PostgreSQL tests and the compiled-server smoke including order persistence after restart.
 - Rehearsed dump and restore inside the isolated test container. Prepared the hosted release runbook and added the release smoke to CI.
 - Synced the M7 guide and runbook to Obsidian. Remote CI and hosted acceptance are pending.
+
+## 24 November 2026 — Admin portal polish
+
+Added database-backed lists and order status counts in 3cd7e2d. Redesigned admin authentication, dashboard and work areas, and shared pagination with the catalog. Chromium verified role gating, lists, previews and management actions at desktop, tablet and mobile widths. See [admin portal notes](ADMIN_PORTAL_UX.md).

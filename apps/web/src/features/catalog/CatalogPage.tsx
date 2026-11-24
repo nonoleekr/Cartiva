@@ -1,3 +1,4 @@
+import { Pagination } from '../../components/Pagination';
 import { useCallback, useState } from 'react';
 import type { FormEvent } from 'react';
 import { Link, useSearchParams } from 'react-router';
@@ -39,7 +40,7 @@ function CatalogResults({ query, retry }: { query: string; retry: () => void }) 
     <p role="status" className="my-4 text-sm font-semibold">{page.meta.totalItems} {page.meta.totalItems === 1 ? 'product' : 'products'}</p>
     {page.data.length ? <div className="grid grid-cols-2 gap-x-4 gap-y-6 lg:grid-cols-4 lg:gap-x-6">{page.data.map((product) => <ProductCard key={product.id} product={product} />)}</div>
       : <div className="py-12"><h2 className="text-xl font-semibold">No products on this page</h2><p className="mt-3 text-stone-600">Try another search or reset your filters.</p><Link to="/" className="mt-4 inline-block underline">Reset filters</Link></div>}
-    {page.meta.totalPages > 0 && <nav aria-label="Catalog pages" className="my-10 flex flex-wrap items-center justify-center gap-5"><button disabled={page.meta.page <= 1} onClick={() => changePage(page.meta.page - 1)} className="rounded border border-stone-300 px-4 py-2 disabled:opacity-40">Previous</button><span className="text-sm">Page {page.meta.page} of {page.meta.totalPages}</span><button disabled={page.meta.page >= page.meta.totalPages} onClick={() => changePage(page.meta.page + 1)} className="rounded bg-emerald-900 px-4 py-2 text-white disabled:opacity-40">Next</button></nav>}
+    {page.meta.totalPages > 0 && <Pagination label="Catalog pages" page={page.meta.page} total={page.meta.totalPages} hasNext={page.meta.page < page.meta.totalPages} change={changePage} />}
   </>;
 }
 

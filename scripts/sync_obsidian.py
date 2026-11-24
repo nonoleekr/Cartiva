@@ -17,7 +17,8 @@ EVIDENCE = Path(r"C:\Users\Ronald\.codex\visualizations\2026\11\19\01a1f299-8637
 IMAGES = ["cartiva-desktop.png", "cartiva-mobile.png", "m3-account-desktop.png",
           "m3-account-mobile.png", "m3-signin-mobile.png", "m4-catalog-desktop.png",
           "m4-catalog-mobile.png", "m4-product-desktop.png", "m4-product-mobile.png",
-          "m4-cart-desktop.png", "m4-cart-mobile.png"]
+          "m4-cart-desktop.png", "m4-cart-mobile.png", "admin-products-desktop.png",
+          "admin-orders-tablet.png", "admin-create-mobile.png"]
 
 
 def digest(data: bytes) -> str:
@@ -172,6 +173,8 @@ remain unverified. No default admin account, real payment processing or deployme
 
 - [Hosted release runbook](reference/docs/RELEASE_RUNBOOK.md)
 
+- [Admin portal polish](reference/docs/ADMIN_PORTAL_UX.md)
+
 ## Keep the notes current
 
 Update owning repository documents and the compact memory/log, then run
@@ -195,6 +198,10 @@ These show synthetic local verification, not a hosted release.
 - [M4 product mobile](assets/m4-product-mobile.png)
 - [M4 cart desktop](assets/m4-cart-desktop.png)
 - [M4 cart mobile](assets/m4-cart-mobile.png)
+
+- [Admin products desktop](assets/admin-products-desktop.png)
+- [Admin orders tablet](assets/admin-orders-tablet.png)
+- [Admin editor mobile](assets/admin-create-mobile.png)
 
 ## Pending decisions / next actions
 

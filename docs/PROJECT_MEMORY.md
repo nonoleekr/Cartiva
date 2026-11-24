@@ -95,3 +95,7 @@ M6 supersedes the earlier milestone boundary. Administration and fulfillment are
 ## M7 handoff
 
 M7 local release preparation passed 71 automated tests, the compiled-server smoke and a disposable database restore rehearsal. The workflow now runs the release smoke after migration and integration tests. See [M7](MILESTONE_7.md) and the [release runbook](RELEASE_RUNBOOK.md). Hosted acceptance and remote CI require a confirmed host, budget and publication scope.
+
+## Admin portal polish before publication
+
+The dedicated portal shell, list controls, order counts and image preview are documented in [Admin portal UX](ADMIN_PORTAL_UX.md). Public hosting remains pending. Verify the portal in the hosted release before sharing a live URL.

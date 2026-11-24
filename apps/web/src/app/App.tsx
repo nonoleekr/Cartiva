@@ -1,4 +1,4 @@
-import { Link, NavLink, Route, Routes } from 'react-router';
+import { Link, NavLink, Route, Routes, useLocation } from 'react-router';
 import { FoundationPage } from './FoundationPage';
 import { AuthPage } from '../features/auth/AuthPage';
 import { AccountPage } from '../features/auth/AccountPage';
@@ -12,21 +12,29 @@ import { CheckoutScreen } from '../features/checkout/Checkout';
 
 export function App() {
   const { user, status } = useSession();
-  return <div className="mx-auto flex min-h-screen max-w-[1296px] flex-col px-6 sm:px-12">
+  const location = useLocation();
+  const admin = /^\/admin(?:\/|$)/.test(location.pathname);
+  const adminAuth = /^\/admin\/sign-(?:in|up)$/.test(location.pathname);
+  return <div data-admin={admin || undefined} className={admin ? 'admin-shell' : ''}><div className={admin ? "admin-frame" : "mx-auto flex min-h-screen max-w-[1296px] flex-col px-6 sm:px-12"}>
     <a href="#main" className="sr-only focus:not-sr-only focus:py-3">Skip to content</a>
-    <header className="flex items-center justify-between gap-6 border-b border-stone-200 py-5">
+    {admin ? <header className="admin-header">
+      <Link to="/admin" className="admin-brand">Cartiva <span>Admin Portal</span></Link>
+      <nav aria-label="Portal links"><Link to="/">Storefront ↗</Link>{user && <Link to="/account">Account</Link>}</nav>
+    </header> : <header className="flex items-center justify-between gap-6 border-b border-stone-200 py-5">
       <Link to="/" className="text-3xl font-bold tracking-tight text-emerald-950">Cartiva</Link>
       <nav aria-label="Main navigation" className="flex gap-5 text-sm font-medium">
         <NavLink to="/" end>Shop</NavLink>
         <NavLink to="/cart">Cart</NavLink>
         {status !== 'loading' && <NavLink to={user ? '/account' : '/sign-in'}>{user ? 'Account' : 'Sign in'}</NavLink>}
       </nav>
-    </header>
-    <main id="main" className="flex-1" tabIndex={-1}>
+    </header>}
+    <main id="main" className={adminAuth ? "admin-auth-main" : "flex-1"} tabIndex={-1}>
       <Routes>
         <Route path="/" element={<CatalogPage />} />
         <Route path="/products/:slug" element={<ProductPage />} />
-        <Route path="/admin" element={<Admin mode="products" />} />
+        <Route path="/admin" element={<Admin mode="dashboard" />} />
+        <Route path="/admin/sign-in" element={<AuthPage key="admin-in" mode="sign-in" admin />} />
+        <Route path="/admin/sign-up" element={<AuthPage key="admin-up" mode="sign-up" admin />} />
         <Route path="/admin/products" element={<Admin mode="products" />} />
         <Route path="/admin/products/new" element={<Admin mode="create" />} />
         <Route path="/admin/products/:id" element={<Admin mode="product" />} />
@@ -45,6 +53,6 @@ export function App() {
         <Route path="*" element={<section className="py-16"><h1 className="text-4xl font-semibold">Page not found</h1><Link to="/" className="mt-6 inline-block underline">Return home</Link></section>} />
       </Routes>
     </main>
-    <footer className="mt-8 flex flex-wrap justify-between gap-4 border-t border-stone-200 py-6 text-sm text-stone-500"><p><strong className="text-emerald-950">Cartiva</strong> · Learning project · Illustrative sample images</p><Link to="/about" className="underline">About this demo</Link></footer>
-  </div>;
+    {!admin && <footer className="mt-8 flex flex-wrap justify-between gap-4 border-t border-stone-200 py-6 text-sm text-stone-500"><p><strong className="text-emerald-950">Cartiva</strong> Â· Learning project Â· Illustrative sample images</p><Link to="/about" className="underline">About this demo</Link></footer>}
+  </div></div>;
 }
